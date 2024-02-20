@@ -8,6 +8,17 @@ const addGroups = (req, res) => {
   if (!groupName || !teamLeader || !description || !members || !endOfProject) {
     return res.status(400).json({ message: "All fields are required." });
   } else {
+    // Ensure members is an array
+    if (!Array.isArray(members)) {
+      // If members is a comma-separated string, convert it to an array
+      if (typeof members === "string") {
+        members = members.split(",");
+      } else {
+        // If members is neither an array nor a string, return an error
+        return res.status(400).json({ message: "Invalid format for members." });
+      }
+    }
+
     // Check if the group already exists
     db.query(
       "SELECT * FROM groupproject WHERE group_name = ?",
