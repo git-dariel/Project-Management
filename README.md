@@ -6,9 +6,11 @@ This project was created by Dariel Avila and Joshua Flores.
 
 Our project scheduler simplifies planning, organizing, and tracking tasks! It has a clear Gantt chart view and helps teams meet deadlines, be productive, and work together better. Perfect for projects of all sizes!
 
-## Tech Stack
+## Tech Stack | Tools
 
 - React.js
 - Express.js
 - MySQL
-- Tailwindcss
+- TailwindCSS
+- Postman
+- Figma
