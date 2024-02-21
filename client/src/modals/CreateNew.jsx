@@ -98,7 +98,7 @@ function CreateNew({ isOpen, toggleModal }) {
                     type="text"
                     id="officer"
                     name="officer"
-                    placeholder="Type officer's name"
+                    placeholder="Assign a Team Leader"
                     className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     required
                   />
