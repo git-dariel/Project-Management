@@ -3,6 +3,7 @@ const cors = require("cors");
 const { usersAuth } = require("../src/api/SignUp");
 const { userLogIn, checkLogin } = require("../src/api/SignIn");
 const { addGroups, updateGroups, deleteGroup } = require("./api/Groups.js");
+const { deleteMember, addMember } = require("./api/Members.js");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -42,6 +43,8 @@ app.get("/signin", checkLogin);
 app.post("/addGroups", addGroups);
 app.put("/updateGroups/:id", updateGroups);
 app.delete("/deleteGroup/:id", deleteGroup);
+app.post("/addMember", addMember);
+app.delete("/deleteMember/:groupId/members/:memberId", deleteMember);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
