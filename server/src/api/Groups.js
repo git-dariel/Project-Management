@@ -113,4 +113,17 @@ const deleteGroup = (req, res) => {
   );
 };
 
-module.exports = { addGroups, updateGroups, deleteGroup };
+// this function getting the data of Groups
+const getGroups = (req, res) => {
+  db.query("SELECT * FROM groupproject", (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: "Error getting groupproject", err });
+    } else {
+      return res
+        .status(200)
+        .json({ message: "Success getting the groups", result });
+    }
+  });
+};
+
+module.exports = { addGroups, updateGroups, deleteGroup, getGroups };
