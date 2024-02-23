@@ -35,7 +35,7 @@ function Projects() {
           <div>
             <div className='font-semibold mb-1'>Recent</div>
             {/* Recent projects content */}
-            <div className=' m-2 overflow-y-auto max-h-20 scrollbar-thin'>
+            <div className=' m-2 overflow-y-auto max-h-20'>
             {dummyProjects.map((project) => (
               <div key={project.id} className='border-b py-2'>
                 <div className='font-bold'>{project.name}</div>
@@ -49,7 +49,7 @@ function Projects() {
           <div>
             <div className='font-semibold mb-1'>All Projects</div>
               {/* All projects content */}
-              <div className='m-2 overflow-y-auto max-h-80 scrollbar-thin'>
+              <div className='m-2 overflow-y-auto max-h-80'>
               {dummyProjects.map((project) => (
                 <div key={project.id} className='border-b py-2'>
                   <div className='font-bold'>{project.name}</div>

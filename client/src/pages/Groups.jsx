@@ -64,7 +64,7 @@ function Groups() {
                 </form>
 
                 <div className='m-2'>
-                    <button className='flex shadow-md bg-none rounded p-4 text-blue-500'>
+                    <button className='flex  bg-none p-4 text-blue-500 font-semibold'>
                         <Users/> <PlusCircle className='w-3 h-3 mr-1'/>
                         Create a group
                     </button>
