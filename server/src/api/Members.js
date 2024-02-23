@@ -120,4 +120,25 @@ const deleteMember = (req, res) => {
   );
 };
 
-module.exports = { deleteMember, addMember };
+// this function getting the data of Members
+const getMembers = (req, res) => {
+  const groupId = req.body.groupId;
+
+  if (!groupId) {
+    return res.status(400).json({ message: "groupId is required" });
+  } else {
+    db.query(
+      "SELECT members from groupproject WHERE group_id = ?",
+      [groupId],
+      (err, result) => {
+        if (err) {
+          return res.status(404).json({ err0r: "Error getting members", err });
+        } else {
+          return res.status(200).json({ members: result });
+        }
+      }
+    );
+  }
+};
+
+module.exports = { deleteMember, addMember, getMembers };

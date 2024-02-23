@@ -2,8 +2,13 @@ const express = require("express");
 const cors = require("cors");
 const { usersAuth } = require("../src/api/SignUp");
 const { userLogIn, checkLogin } = require("../src/api/SignIn");
-const { addGroups, updateGroups, deleteGroup } = require("./api/Groups.js");
-const { deleteMember, addMember } = require("./api/Members.js");
+const {
+  addGroups,
+  updateGroups,
+  deleteGroup,
+  getGroups,
+} = require("./api/Groups.js");
+const { deleteMember, addMember, getMembers } = require("./api/Members.js");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -37,12 +42,19 @@ app.use(
   })
 );
 
+// endpoints for sign in and sign up
 app.post("/signup", usersAuth);
 app.post("/signin", userLogIn);
 app.get("/signin", checkLogin);
+
+// endpoints for groups
+app.get("/getGroups", getGroups);
 app.post("/addGroups", addGroups);
 app.put("/updateGroups/:id", updateGroups);
 app.delete("/deleteGroup/:id", deleteGroup);
+
+// endpoints for members
+app.get("/getMembers", getMembers);
 app.post("/addMember", addMember);
 app.delete("/deleteMember/:groupId/members/:memberId", deleteMember);
 
