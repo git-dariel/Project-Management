@@ -8,6 +8,7 @@ const {
   deleteGroup,
   getGroups,
 } = require("./api/Groups.js");
+const { addStages, addTasks } = require("./api/Stages.js");
 const { deleteMember, addMember, getMembers } = require("./api/Members.js");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
@@ -57,6 +58,10 @@ app.delete("/deleteGroup/:id", deleteGroup);
 app.get("/getMembers", getMembers);
 app.post("/addMember", addMember);
 app.delete("/deleteMember/:groupId/members/:memberId", deleteMember);
+
+// endpoints for stages and tasks
+app.post("/addStages", addStages);
+app.post("/addTasks", addTasks);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
