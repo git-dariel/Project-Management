@@ -2,21 +2,37 @@ const db = require("../config/Connection.js");
 
 // this function create groups
 const addGroups = (req, res) => {
-  const { groupName, teamLeader, description, members, endOfProject } =
-    req.body;
+  const {
+    groupName,
+    teamLeader,
+    description,
+    members,
+    endOfProject,
+    dateAddMembers,
+  } = req.body;
 
   if (!groupName || !teamLeader || !description || !members || !endOfProject) {
     return res.status(400).json({ message: "All fields are required." });
   } else {
+    let processedMembers = [];
     // Ensure members is an array
     if (!Array.isArray(members)) {
       // If members is a comma-separated string, convert it to an array
       if (typeof members === "string") {
-        members = members.split(",");
+        processedMembers = members.split(",").map((memberName) => ({
+          name: memberName.trim(), // Trim whitespace
+          isActive: true, // Mark as active
+        }));
       } else {
         // If members is neither an array nor a string, return an error
         return res.status(400).json({ message: "Invalid format for members." });
       }
+    } else {
+      // If members is already an array, map through it to ensure each member has the isActive property
+      processedMembers = members.map((memberName) => ({
+        name: memberName,
+        isActive: true,
+      }));
     }
 
     // Check if the group already exists
@@ -36,13 +52,14 @@ const addGroups = (req, res) => {
         } else {
           // If the group does not exist, insert into the database
           db.query(
-            "INSERT INTO groupproject (group_name, team_leader, group_description, members, end_of_project)VALUES (?, ?, ?, ? ,?)",
+            "INSERT INTO groupproject (group_name, team_leader, group_description, members, end_of_project, date_of_added_member) VALUES (?, ?, ?, ? ,?, ?)",
             [
               groupName,
               teamLeader,
               description,
-              JSON.stringify(members),
+              JSON.stringify(processedMembers), // Use processedMembers with isActive property
               endOfProject,
+              dateAddMembers,
             ],
             (err, result) => {
               if (err) {
