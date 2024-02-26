@@ -181,13 +181,27 @@ const getMembers = (req, res) => {
     return res.status(400).json({ message: "groupId is required" });
   } else {
     db.query(
-      "SELECT members, date_of_added_member from groupproject WHERE group_id = ?",
+      "SELECT * FROM groupproject WHERE group_id = ?",
       [groupId],
       (err, result) => {
         if (err) {
           return res.status(404).json({ error: "Error getting members", err });
+        } else if (result.length <= 0) {
+          return res.status(404).json({ error: "No members found" });
         } else {
-          return res.status(200).json({ members: result });
+          db.query(
+            "SELECT members, date_of_added_member from groupproject WHERE group_id = ?",
+            [groupId],
+            (err, result) => {
+              if (err) {
+                return res
+                  .status(404)
+                  .json({ error: "Error getting members", err });
+              } else {
+                return res.status(200).json({ members: result });
+              }
+            }
+          );
         }
       }
     );

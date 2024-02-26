@@ -2,6 +2,7 @@ const db = require("../config/Connection.js");
 
 const addStages = (req, res) => {
   const { stageName } = req.body;
+  const { groupId } = req.body;
 
   if (!stageName) {
     return res.status(500).json({ message: "All fields are required." });
@@ -20,8 +21,8 @@ const addStages = (req, res) => {
         } else {
           // if not, insert the data into database
           db.query(
-            "INSERT INTO stages (stage_name) VALUES (?)",
-            [stageName],
+            "INSERT INTO stages (group_id, stage_name) VALUES (?, ?)",
+            [groupId, stageName],
             (err, result) => {
               if (err) {
                 return res
@@ -47,7 +48,7 @@ const updateStages = (req, res) => {
     return res.status(500).json({ message: "All fields are required." });
   } else {
     db.query(
-      "UPDATE stages SET stage_name =? WHERE stages_id =?",
+      "UPDATE stages SET stage_name = ? WHERE stages_id =?",
       [stageName, req.params.id],
       (err, result) => {
         if (err) {
@@ -66,15 +67,29 @@ const updateStages = (req, res) => {
 
 const deleteStages = (req, res) => {
   db.query(
-    "DELETE FROM stages WHERE stages_id =?",
+    "SELECT * FROM stages WHERE stages_id = ?",
     [req.params.id],
     (err, result) => {
       if (err) {
-        return res.status(500).json({ message: "Error deleting stages", err });
+        return res.status(500).json({ message: "Error getting stages", err });
+      } else if (result.length <= 0) {
+        return res.status(404).json({ error: "Stage not found" });
       } else {
-        return res
-          .status(200)
-          .json({ message: "Stages successfully deleted", result });
+        db.query(
+          "DELETE FROM stages WHERE stages_id =?",
+          [req.params.id],
+          (err, result) => {
+            if (err) {
+              return res
+                .status(500)
+                .json({ message: "Error deleting stages", err });
+            } else {
+              return res
+                .status(200)
+                .json({ message: "Stages successfully deleted", result });
+            }
+          }
+        );
       }
     }
   );

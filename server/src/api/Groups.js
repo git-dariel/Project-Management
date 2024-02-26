@@ -88,24 +88,60 @@ const updateGroups = (req, res) => {
   if (!groupName || !teamLeader || !description || !members || !endOfProject) {
     return res.status(400).json({ message: "All fields are required." });
   } else {
+    let processedMembers = [];
+    // Ensure members is an array
+    if (!Array.isArray(members)) {
+      // If members is a comma-separated string, convert it to an array
+      if (typeof members === "string") {
+        processedMembers = members.split(",").map((memberName) => ({
+          name: memberName.trim(), // Trim whitespace
+          isActive: true, // Mark as active
+        }));
+      } else {
+        // If members is neither an array nor a string, return an error
+        return res.status(400).json({ message: "Invalid format for members." });
+      }
+    } else {
+      // If members is already an array, map through it to ensure each member has the isActive property
+      processedMembers = members.map((memberName) => ({
+        name: memberName,
+        isActive: true,
+      }));
+    }
+
+    // Check if the group are not exist
     db.query(
-      "UPDATE groupproject SET group_name = ?, team_leader = ?, group_description = ?, members = ?, end_of_project = ? WHERE group_id = ?",
-      [
-        groupName,
-        teamLeader,
-        description,
-        JSON.stringify(members),
-        endOfProject,
-        req.params.id,
-      ],
-      (error, results) => {
-        if (error) {
-          console.error("Error updating group", error);
-          res
+      "SELECT * FROM groupproject WHERE group_id = ?",
+      [req.params.id],
+      (err, result) => {
+        if (err) {
+          return res
             .status(500)
-            .json({ message: "An error occurred while updating the group." });
+            .json({ message: "Error checking if group not exists" });
+        } else if (result.length <= 0) {
+          return res.status(409).json({ message: "Group not exists" });
         } else {
-          res.status(200).json({ message: "Group successfully updated" });
+          db.query(
+            "UPDATE groupproject SET group_name = ?, team_leader = ?, group_description = ?, members = ?, end_of_project = ? WHERE group_id = ?",
+            [
+              groupName,
+              teamLeader,
+              description,
+              JSON.stringify(processedMembers),
+              endOfProject,
+              req.params.id,
+            ],
+            (error, results) => {
+              if (error) {
+                console.error("Error updating group", error);
+                res.status(500).json({
+                  message: "An error occurred while updating the group.",
+                });
+              } else {
+                res.status(200).json({ message: "Group successfully updated" });
+              }
+            }
+          );
         }
       }
     );
@@ -115,16 +151,32 @@ const updateGroups = (req, res) => {
 // this function delete the groups
 const deleteGroup = (req, res) => {
   db.query(
-    "DELETE FROM groupproject WHERE group_id = ?",
+    "SELECT * FROM groupproject WHERE group_id = ?",
     [req.params.id],
-    (error, results) => {
-      if (error) {
-        console.error("Error deleting group", error);
-        res
+    (err, result) => {
+      if (err) {
+        return res
           .status(500)
-          .json({ message: "An error occurred while deleting the group." });
+          .json({ error: "Error getting groupproject", err });
+      } else if (result.length <= 0) {
+        return res.status(404).json({ error: "Group not found" });
       } else {
-        res.status(200).json({ message: "Group successfully deleted" });
+        db.query(
+          "DELETE FROM groupproject WHERE group_id = ?",
+          [req.params.id],
+          (error, results) => {
+            if (error) {
+              console.error("Error deleting group", error);
+              res
+                .status(500)
+                .json({
+                  message: "An error occurred while deleting the group.",
+                });
+            } else {
+              res.status(200).json({ message: "Group successfully deleted" });
+            }
+          }
+        );
       }
     }
   );
