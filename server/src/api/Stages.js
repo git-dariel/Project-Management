@@ -2,6 +2,7 @@ const db = require("../config/Connection.js");
 
 const addStages = (req, res) => {
   const { stageName } = req.body;
+  const { groupId } = req.body;
 
   if (!stageName) {
     return res.status(500).json({ message: "All fields are required." });
@@ -20,8 +21,8 @@ const addStages = (req, res) => {
         } else {
           // if not, insert the data into database
           db.query(
-            "INSERT INTO stages (stage_name) VALUES (?)",
-            [stageName],
+            "INSERT INTO stages (group_id, stage_name) VALUES (?, ?)",
+            [groupId, stageName],
             (err, result) => {
               if (err) {
                 return res
@@ -40,76 +41,68 @@ const addStages = (req, res) => {
   }
 };
 
-const addTasks = (req, res) => {
-  const {
-    stagesID,
-    taskName,
-    assignedMembers,
-    progress,
-    weight,
-    startOfTask,
-    endOfTask,
-    actualEndOfTask,
-    aging,
-    daysTasksToComplete,
-  } = req.body;
+const updateStages = (req, res) => {
+  const { stageName } = req.body;
 
-  if (
-    !stagesID ||
-    !taskName ||
-    !assignedMembers ||
-    !progress ||
-    !weight ||
-    !startOfTask ||
-    !endOfTask ||
-    !actualEndOfTask ||
-    !daysTasksToComplete
-  ) {
+  if (!stageName) {
     return res.status(500).json({ message: "All fields are required." });
   } else {
-    // Check if the specified stagesID exists in the stages table
     db.query(
-      "SELECT * FROM stages WHERE stages_id = ?",
-      [stagesID],
-      (err, stageResult) => {
+      "UPDATE stages SET stage_name = ? WHERE stages_id =?",
+      [stageName, req.params.id],
+      (err, result) => {
         if (err) {
           return res
             .status(500)
-            .json({ message: "Error checking stage existence" });
-        } else if (stageResult.length === 0) {
-          return res.status(400).json({ message: "Invalid stagesID" });
+            .json({ message: "Error updating stages", err });
         } else {
-          // if the stage exists, insert the data into the tasks table
-          db.query(
-            "INSERT INTO tasks (stages_id, task_name, assigned_members, progress, weight, start_of_task, end_of_task, actual_end_task, aging, days_per_tasks_to_complete) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-            [
-              stagesID,
-              taskName,
-              JSON.stringify(assignedMembers),
-              progress,
-              weight,
-              startOfTask,
-              endOfTask,
-              actualEndOfTask,
-              aging,
-              daysTasksToComplete,
-            ],
-            (err, result) => {
-              if (err) {
-                return res
-                  .status(400)
-                  .json({ error: "Error inserting task", err });
-              } else {
-                return res
-                  .status(200)
-                  .json({ message: "Task successfully added", result });
-              }
-            }
-          );
+          return res
+            .status(200)
+            .json({ message: "Stages successfully updated", result });
         }
       }
     );
   }
 };
 
-module.exports = { addStages, addTasks };
+const deleteStages = (req, res) => {
+  db.query(
+    "SELECT * FROM stages WHERE stages_id = ?",
+    [req.params.id],
+    (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: "Error getting stages", err });
+      } else if (result.length <= 0) {
+        return res.status(404).json({ error: "Stage not found" });
+      } else {
+        db.query(
+          "DELETE FROM stages WHERE stages_id =?",
+          [req.params.id],
+          (err, result) => {
+            if (err) {
+              return res
+                .status(500)
+                .json({ message: "Error deleting stages", err });
+            } else {
+              return res
+                .status(200)
+                .json({ message: "Stages successfully deleted", result });
+            }
+          }
+        );
+      }
+    }
+  );
+};
+
+const getStages = (req, res) => {
+  db.query("SELECT * FROM stages", (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: "Error getting stages", err });
+    } else {
+      return res.status(200).json({ stages: result });
+    }
+  });
+};
+
+module.exports = { addStages, updateStages, deleteStages, getStages };

@@ -8,8 +8,20 @@ const {
   deleteGroup,
   getGroups,
 } = require("./api/Groups.js");
-const { addStages, addTasks } = require("./api/Stages.js");
-const { deleteMember, addMember, getMembers } = require("./api/Members.js");
+const {
+  addStages,
+  updateStages,
+  deleteStages,
+  getStages,
+} = require("./api/Stages.js");
+const {
+  deactivateMember,
+  addMember,
+  getMembers,
+  activateMember,
+} = require("./api/Members.js");
+const { addTasks, getTasks } = require("./api/Tasks.js");
+
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
@@ -57,10 +69,17 @@ app.delete("/deleteGroup/:id", deleteGroup);
 // endpoints for members
 app.get("/getMembers", getMembers);
 app.post("/addMember", addMember);
-app.delete("/deleteMember/:groupId/members/:memberId", deleteMember);
+app.patch("/deactivateMember/:groupId/members/:memberId", deactivateMember);
+app.patch("/activateMember/:groupId/members/:memberId", activateMember);
 
-// endpoints for stages and tasks
+// endpoints for stages
+app.get("/getStages", getStages);
 app.post("/addStages", addStages);
+app.put("/updateStages/:id", updateStages);
+app.delete("/deleteStages/:id", deleteStages);
+
+// endpoints for tasks
+app.get("/getTasks", getTasks);
 app.post("/addTasks", addTasks);
 
 app.listen(PORT, () => {
