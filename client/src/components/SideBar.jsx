@@ -15,7 +15,7 @@ const Sidebar = ({ children }) => {
       <div className={`${isMinimized ? 'min-w-16' : 'min-w-52'} bg-gray-800 h-screen text-white relative transition-all duration-300 ease-in-out`}>
         {/* Toggle Button */}
         <div className="py-4 px-6 flex justify-between items-center">
-          <button onClick={toggleSidebar} className="focus:outline-none">
+          <button type="button"  onClick={toggleSidebar} className="focus:outline-none">
             {isMinimized ? <ChevronRight className="h-6 w-6" /> : <ChevronLeft className="h-6 w-6" />}
           </button>
         </div>
