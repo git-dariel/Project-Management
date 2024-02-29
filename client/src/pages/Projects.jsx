@@ -1,18 +1,12 @@
 import { PlusCircle } from 'lucide-react';
 import React, { useState } from 'react';
 import CreateNew from '../modals/CreateNew';
+import { Link } from 'react-router-dom';
+import { dummyProjects } from '../components/projectdata';
 
 function Projects() {
-  // Dummy data for projects
-  const dummyProjects = [
-    { id: 1, name: 'Project 1', date: '2024-02-18' },
-    { id: 2, name: 'Project 2', date: '2024-02-17' },
-    { id: 3, name: 'Project 3', date: '2024-02-16' },
-    { id: 4, name: 'Project 4', date: '2024-02-15' },
-    { id: 5, name: 'Project 5', date: '2024-02-14' },
-  ];
-
-  const[isOpen, setIsOpen] = useState(false);
+  
+  const [isOpen, setIsOpen] = useState(false);
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
@@ -20,7 +14,7 @@ function Projects() {
 
   return (
     <div className='flex h-full w-full bg-gray-200 justify-center p-5'>
-      <div className='bg-white rounded-lg h-full w-full shadow-lg p-5 relative'>
+      <div className='bg-white rounded-lg h-full w-full shadow-lg p-5 relative' style={{ boxShadow: '0px 5px 5px -5px rgba(0, 0, 0, 0.2)' }}>
         <div className='header mb-4'>
           <div className='text-2xl font-bold text-gray-700 mb-2'>
             All Projects
@@ -33,32 +27,39 @@ function Projects() {
         <CreateNew isOpen={isOpen} toggleModal={toggleModal} />
         <div>
           <div>
-            <div className='font-semibold mb-1'>Recent</div>
+            <div className='font-semibold my-2 py-4' style={{ boxShadow: '0px 5px 5px -5px rgba(0, 0, 0, 0.2)' }}>Recent</div>
             {/* Recent projects content */}
-            <div className=' m-2 overflow-y-auto max-h-20'>
+            <div className='m-4 overflow-y-auto max-h-20'>
             {dummyProjects.map((project) => (
-              <div key={project.id} className='border-b py-2'>
-                <div className='font-bold'>{project.name}</div>
-                <div className='text-gray-500'>{project.date}</div>
+            <Link to={`/projects/${project.id}`} key={project.id} className="text-gray-800 font-semibold">
+              <div className="grid grid-cols-4 items-center border-b p-3 cursor-pointer hover:bg-gray-200">
+                <div>{project.name}</div>
+                <div className="text-gray-500">{project.code}</div>
+                <div className="text-gray-500 text-end col-span-2">{project.date}</div>
               </div>
-            ))}
+            </Link>
+          ))}
+
             </div>
           </div>
-          
-          
+
           <div>
-            <div className='font-semibold mb-1'>All Projects</div>
-              {/* All projects content */}
-              <div className='m-2 overflow-y-auto max-h-80'>
-              {dummyProjects.map((project) => (
-                <div key={project.id} className='border-b py-2'>
-                  <div className='font-bold'>{project.name}</div>
-                  <div className='text-gray-500'>{project.date}</div>
-                </div>
-              ))}
+            <div className='font-semibold my-2 py-4' style={{ boxShadow: '0px 5px 5px -5px rgba(0, 0, 0, 0.2)' }}>All Projects</div>
+            {/* All projects content */}
+            <div className='m-4 overflow-y-auto max-h-80'>
+            {dummyProjects.map((project) => (
+            <Link to={`/projects/${project.id}`} key={project.id} className="text-gray-800 font-semibold">
+              <div className="grid grid-cols-4 items-center border-b p-3 cursor-pointer hover:bg-gray-200">
+                <div>{project.name}</div>
+                <div className="text-gray-500">{project.code}</div>
+                <div className="text-gray-500 text-end col-span-2">{project.date}</div>
               </div>
+            </Link>
+          ))}
+
             </div>
           </div>
+        </div>
       </div>
     </div>
   );

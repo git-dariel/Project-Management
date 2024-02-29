@@ -53,6 +53,13 @@ function App() {
         )}
         {isLoggedIn && (
           <Route
+          path="/projects/:projectId"
+          element={<Sidebar onLogout={handleLogout}>
+            <ProjectView/>
+          </Sidebar>}/>
+        )}
+        {isLoggedIn && (
+          <Route
             path="/groups"
             element={
               <Sidebar onLogout={handleLogout}>
@@ -81,16 +88,6 @@ function App() {
             }
           />
         )}
-      </Routes>
-
-      {/* For testing purposes only */}
-      <Routes>
-        {/* <Route path="/dashboard" element={<Sidebar> <Dashboard/></Sidebar>} />
-        <Route path="/projects" element={<Sidebar> <Projects/></Sidebar>} /> */}
-        <Route path="/projectview" element={<Sidebar><ProjectView/></Sidebar>} />
-        {/* <Route path="/groups" element={<Sidebar> <Groups/></Sidebar>} />
-        <Route path="/notifications" element={<Sidebar> <Notification/></Sidebar>} />
-        <Route path="/profile" element={<Sidebar> <Profile/></Sidebar>} /> */}
       </Routes>
     </>
   );
