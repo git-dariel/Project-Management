@@ -14,3 +14,4 @@ Our project scheduler simplifies planning, organizing, and tracking tasks! It ha
 - TailwindCSS
 - Postman
 - Figma
+- React Scheduler
