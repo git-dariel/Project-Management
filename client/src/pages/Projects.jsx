@@ -31,9 +31,9 @@ function Projects() {
             {/* Recent projects content */}
             <div className='m-4 overflow-y-auto max-h-20'>
             {dummyProjects.map((project) => (
-            <Link to={`/projects/${project.id}`} key={project.id} className="text-gray-800 font-semibold">
-              <div className="grid grid-cols-4 items-center border-b p-3 cursor-pointer hover:bg-gray-200">
-                <div>{project.name}</div>
+            <Link to={`/projects/${project.id}`} key={project.id} className="text-gray-800">
+              <div className="grid grid-cols-4 items-center border-b p-3 cursor-pointer hover:bg-gray-200 transition-all duration-300 ease-in-out">
+                <div className='font-semibold text-gray-700'>{project.name}</div>
                 <div className="text-gray-500">{project.code}</div>
                 <div className="text-gray-500 text-end col-span-2">{project.date}</div>
               </div>
@@ -48,14 +48,14 @@ function Projects() {
             {/* All projects content */}
             <div className='m-4 overflow-y-auto max-h-80'>
             {dummyProjects.map((project) => (
-            <Link to={`/projects/${project.id}`} key={project.id} className="text-gray-800 font-semibold">
-              <div className="grid grid-cols-4 items-center border-b p-3 cursor-pointer hover:bg-gray-200">
-                <div>{project.name}</div>
-                <div className="text-gray-500">{project.code}</div>
-                <div className="text-gray-500 text-end col-span-2">{project.date}</div>
-              </div>
-            </Link>
-          ))}
+            <Link to={`/projects/${project.id}`} key={project.id} className="text-gray-800">
+                <div className="grid grid-cols-4 items-center border-b p-3 cursor-pointer hover:bg-gray-200 transition-all duration-400 ease-in-out">
+                  <div className='font-semibold text-gray-700'>{project.name}</div>
+                  <div className="text-gray-500">{project.code}</div>
+                  <div className="text-gray-500 text-end col-span-2">{project.date}</div>
+                </div>
+              </Link>
+            ))}
 
             </div>
           </div>

@@ -16,6 +16,8 @@ export const mockedSchedulerData = [
                 title: "Project A",
                 subtitle: "Subtitle A",
                 description: "Array indexing Salad West Account",
+                progress: 100,
+                weight: 30,
                 bgColor: "#6CB2EB" // Light Blue
             },
         ]
@@ -36,6 +38,8 @@ export const mockedSchedulerData = [
                 title: "Project B",
                 subtitle: "Subtitle B",
                 description: "Database optimization",
+                progress: 10,
+                weight: 83,
                 bgColor: "#BA68C8" // Light Purple
             },
         ]
@@ -56,6 +60,8 @@ export const mockedSchedulerData = [
                 title: "Project C",
                 subtitle: "Subtitle C",
                 description: "UI wireframing",
+                progress: 80,
+                weight: 10,
                 bgColor: "#FFD54F" // Light Yellow
             },
         ]
@@ -76,6 +82,8 @@ export const mockedSchedulerData = [
                 title: "Project D",
                 subtitle: "Subtitle D",
                 description: "Full stack development",
+                progress: 10,
+                weight: 1,
                 bgColor: "#FFB74D" // Light Orange
             },
         ]
@@ -96,6 +104,8 @@ export const mockedSchedulerData = [
                 title: "Project E",
                 subtitle: "Subtitle E",
                 description: "Product roadmap planning",
+                progress: 70,
+                weight: 30,
                 bgColor: "#EF5350" // Light Red
             },
         ]
@@ -116,6 +126,8 @@ export const mockedSchedulerData = [
                 title: "Project F",
                 subtitle: "Subtitle F",
                 description: "Infrastructure optimization",
+                progress: 65,
+                weight: 13,
                 bgColor: "#6CB2EB" // Light Blue
             },
         ]
@@ -136,6 +148,8 @@ export const mockedSchedulerData = [
                 title: "Project G",
                 subtitle: "Subtitle G",
                 description: "Data analysis",
+                progress: 60,
+                weight: 30,
                 bgColor: "#A2D729" // Light Green
             },
         ]
@@ -156,6 +170,8 @@ export const mockedSchedulerData = [
                 title: "Project H",
                 subtitle: "Subtitle H",
                 description: "Quality assurance testing",
+                progress: 60,
+                weight: 30,
                 bgColor: "#BA68C8" // Light Purple
             },
         ]
@@ -176,6 +192,8 @@ export const mockedSchedulerData = [
                 title: "Project I",
                 subtitle: "Subtitle I",
                 description: "System requirements analysis",
+                progress: 60,
+                weight: 30,
                 bgColor: "#FFD54F" // Light Yellow
             },
         ]
@@ -196,6 +214,8 @@ export const mockedSchedulerData = [
                 title: "Project J",
                 subtitle: "Subtitle J",
                 description: "Market analysis",
+                progress: 60,
+                weight: 30,
                 bgColor: "#FFB74D" // Light Orange
             },
         ]
