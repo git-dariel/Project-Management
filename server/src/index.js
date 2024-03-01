@@ -25,6 +25,12 @@ const { addTasks, getTasks } = require("./api/Tasks.js");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const {
+  addNotifications,
+  deleteNotifications,
+  getNotifications,
+} = require("./api/Notification.js");
+
 require("dotenv").config();
 
 const app = express();
@@ -81,6 +87,11 @@ app.delete("/deleteStages/:id", deleteStages);
 // endpoints for tasks
 app.get("/getTasks", getTasks);
 app.post("/addTasks", addTasks);
+
+// endpoints for notifications
+app.get("/getNotif", getNotifications);
+app.post("/addNotif", addNotifications);
+app.delete("/deleteNotif/:id", deleteNotifications);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
