@@ -44,4 +44,15 @@ const checkLogin = (req, res) => {
   }
 };
 
-module.exports = { userLogIn, checkLogin };
+// get the users
+const getUsers = (req, res) => {
+  db.query("SELECT * FROM users", (err, result) => {
+    if (err) {
+      res.send({ err: err });
+    } else {
+      res.send({ message: "Users successfully retrieved", data: result });
+    }
+  });
+};
+
+module.exports = { userLogIn, checkLogin, getUsers };

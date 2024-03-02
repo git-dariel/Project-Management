@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { usersAuth } = require("../src/api/SignUp");
-const { userLogIn, checkLogin } = require("../src/api/SignIn");
+const { userLogIn, checkLogin, getUsers } = require("../src/api/SignIn");
 const {
   addGroups,
   updateGroups,
@@ -65,6 +65,7 @@ app.use(
 app.post("/signup", usersAuth);
 app.post("/signin", userLogIn);
 app.get("/signin", checkLogin);
+app.get("/getUsers", getUsers);
 
 // endpoints for groups
 app.get("/getGroups", getGroups);
