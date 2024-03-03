@@ -12,6 +12,6 @@ Our project scheduler simplifies planning, organizing, and tracking tasks! It ha
 - Express.js
 - MySQL
 - TailwindCSS
-- Postman
+- Insomnia
 - Figma
 - React Scheduler
