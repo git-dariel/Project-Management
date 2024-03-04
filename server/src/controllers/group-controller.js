@@ -1,4 +1,4 @@
-const db = require("../config/Connection.js");
+const db = require("../config/db-connection.js");
 
 // this function create groups
 const addGroups = (req, res) => {
@@ -167,11 +167,9 @@ const deleteGroup = (req, res) => {
           (error, results) => {
             if (error) {
               console.error("Error deleting group", error);
-              res
-                .status(500)
-                .json({
-                  message: "An error occurred while deleting the group.",
-                });
+              res.status(500).json({
+                message: "An error occurred while deleting the group.",
+              });
             } else {
               res.status(200).json({ message: "Group successfully deleted" });
             }

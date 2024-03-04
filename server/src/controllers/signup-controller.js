@@ -1,4 +1,4 @@
-const db = require("../config/Connection");
+const db = require("../config/db-connection");
 const bcrypt = require("bcrypt");
 
 // number of saltrounds for bcrypt
@@ -63,4 +63,15 @@ const usersAuth = (req, res) => {
   );
 };
 
-module.exports = { usersAuth };
+// get the users
+const getUsers = (req, res) => {
+  db.query("SELECT * FROM users", (err, result) => {
+    if (err) {
+      res.send({ err: err });
+    } else {
+      res.send({ message: "Users successfully retrieved", data: result });
+    }
+  });
+};
+
+module.exports = { usersAuth, getUsers };
