@@ -18,13 +18,16 @@ function Signup() {
     } else {
       try {
         if (password === passwordConfirmation) {
-          const response = await axios.post("http://localhost:8000/signup", {
-            firstname: firstname,
-            lastname: lastname,
-            position: position,
-            email: email,
-            password: passwordConfirmation,
-          });
+          const response = await axios.post(
+            "http://localhost:8000/api/users/signup",
+            {
+              firstname: firstname,
+              lastname: lastname,
+              position: position,
+              email: email,
+              password: passwordConfirmation,
+            }
+          );
           console.log(`You are successfully registered. ${response}`);
         } else {
           console.log("Passwords do not match");

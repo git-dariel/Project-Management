@@ -3,7 +3,7 @@ const {
   getNotifications,
   addNotifications,
   deleteNotification,
-} = require("../controllers/notification-controller");
+} = require("../../controllers/admin/notification-controller");
 const router = express.Router();
 
 // Notification routes

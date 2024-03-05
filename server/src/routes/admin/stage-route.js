@@ -4,7 +4,7 @@ const {
   addStages,
   updateStage,
   deleteStage,
-} = require("../controllers/stage-controller");
+} = require("../../controllers/admin/stage-controller");
 const router = express.Router();
 
 // Stage routes

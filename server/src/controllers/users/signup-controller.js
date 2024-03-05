@@ -1,4 +1,4 @@
-const db = require("../config/db-connection");
+const db = require("../../database/db-connection");
 const bcrypt = require("bcrypt");
 
 // number of saltrounds for bcrypt

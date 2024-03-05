@@ -1,4 +1,4 @@
-const db = require("../config/db-connection.js");
+const db = require("../../database/db-connection.js");
 
 // this function create groups
 const addGroups = (req, res) => {

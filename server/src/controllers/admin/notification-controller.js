@@ -1,4 +1,4 @@
-const db = require("../config/db-connection.js");
+const db = require("../../database/db-connection.js");
 
 const addNotifications = (req, res) => {
   const { title, description, dateAndTime } = req.body;

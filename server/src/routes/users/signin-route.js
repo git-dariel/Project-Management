@@ -2,7 +2,7 @@ const express = require("express");
 const {
   userLogIn,
   getUserLoginStatus,
-} = require("../controllers/signin-controller");
+} = require("../../controllers/users/signin-controller");
 const router = express.Router();
 
 // Signin routes

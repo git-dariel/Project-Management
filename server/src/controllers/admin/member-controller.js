@@ -1,4 +1,4 @@
-const db = require("../config/db-connection.js");
+const db = require("../../database/db-connection.js");
 
 // this function add a new member
 const addMember = (req, res) => {
@@ -76,13 +76,21 @@ const updateMemberStatus = (id, member_id, isActive, res) => {
 
       let existingMembers;
       try {
-        existingMembers = typeof results[0].members === 'string' ? JSON.parse(results[0].members) : results[0].members;
+        existingMembers =
+          typeof results[0].members === "string"
+            ? JSON.parse(results[0].members)
+            : results[0].members;
       } catch (parseError) {
         console.error("Failed to parse members data:", parseError);
-        return res.status(500).json({ message: "Failed to parse members data", error: parseError.message });
+        return res.status(500).json({
+          message: "Failed to parse members data",
+          error: parseError.message,
+        });
       }
 
-      const memberIndex = existingMembers.findIndex(member => member.name === member_id);
+      const memberIndex = existingMembers.findIndex(
+        (member) => member.name === member_id
+      );
       if (memberIndex === -1) {
         return res.status(404).json({ message: "Member not found in group" });
       }

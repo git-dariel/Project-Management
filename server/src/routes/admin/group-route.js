@@ -4,7 +4,7 @@ const {
   addGroups,
   updateGroup,
   deleteGroup,
-} = require("../controllers/group-controller");
+} = require("../../controllers/admin/group-controller");
 const router = express.Router();
 
 // Group routes

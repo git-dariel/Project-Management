@@ -5,7 +5,7 @@ const {
   addMember,
   deactivateMember,
   activateMember,
-} = require("../controllers/member-controller");
+} = require("../../controllers/admin/member-controller");
 
 // Member routes
 router.route("/member").get(getMembers);
