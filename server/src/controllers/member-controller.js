@@ -1,4 +1,4 @@
-const db = require("../config/Connection.js");
+const db = require("../config/db-connection.js");
 
 // this function add a new member
 const addMember = (req, res) => {
@@ -59,13 +59,11 @@ const addMember = (req, res) => {
   );
 };
 
-//this function deactivate members
-const deactivateMember = (req, res) => {
-  const { groupId, memberId } = req.params;
-
+// Utility function to fetch and update member status
+const updateMemberStatus = (id, member_id, isActive, res) => {
   db.query(
     "SELECT members FROM groupproject WHERE group_id = ?",
-    [groupId],
+    [id],
     (error, results) => {
       if (error) {
         console.error("Error retrieving members:", error);
@@ -78,99 +76,45 @@ const deactivateMember = (req, res) => {
 
       let existingMembers;
       try {
-        // Check if members is already an object (or array)
-        if (typeof results[0].members === "object") {
-          existingMembers = results[0].members;
-        } else {
-          // If it's a string, attempt to parse it
-          existingMembers = JSON.parse(results[0].members);
-        }
+        existingMembers = typeof results[0].members === 'string' ? JSON.parse(results[0].members) : results[0].members;
       } catch (parseError) {
         console.error("Failed to parse members data:", parseError);
-        return res
-          .status(500)
-          .json({ message: "Failed to parse members data" });
+        return res.status(500).json({ message: "Failed to parse members data", error: parseError.message });
       }
 
-      const memberIndex = existingMembers.findIndex(
-        (member) => member.name === memberId
-      );
+      const memberIndex = existingMembers.findIndex(member => member.name === member_id);
       if (memberIndex === -1) {
         return res.status(404).json({ message: "Member not found in group" });
       }
 
-      existingMembers[memberIndex].isActive = false;
+      existingMembers[memberIndex].isActive = isActive;
 
       db.query(
         "UPDATE groupproject SET members = ? WHERE group_id = ?",
-        [JSON.stringify(existingMembers), groupId],
+        [JSON.stringify(existingMembers), id],
         (updateError) => {
           if (updateError) {
             console.error("Error updating members:", updateError);
             return res.status(500).json({ message: "Error updating members" });
           }
-          res.status(200).json({ message: "Member successfully deactivated" });
+          const action = isActive ? "activated" : "deactivated";
+          res.status(200).json({ message: `Member successfully ${action}` });
         }
       );
     }
   );
 };
 
-//this function activateMember members
+// Deactivate a member
+const deactivateMember = (req, res) => {
+  const { id, member_id } = req.params;
+  updateMemberStatus(id, member_id, false, res);
+};
+
+// Activate a member
 const activateMember = (req, res) => {
-  const { groupId, memberId } = req.params;
-
-  db.query(
-    "SELECT members FROM groupproject WHERE group_id = ?",
-    [groupId],
-    (error, results) => {
-      if (error) {
-        console.error("Error retrieving members:", error);
-        return res.status(500).json({ message: "Error retrieving members" });
-      }
-
-      if (results.length === 0) {
-        return res.status(404).json({ message: "Group not found" });
-      }
-
-      let existingMembers;
-      try {
-        // Check if members is already an object (or array)
-        if (typeof results[0].members === "object") {
-          existingMembers = results[0].members;
-        } else {
-          // If it's a string, attempt to parse it
-          existingMembers = JSON.parse(results[0].members);
-        }
-      } catch (parseError) {
-        console.error("Failed to parse members data:", parseError);
-        return res
-          .status(500)
-          .json({ message: "Failed to parse members data" });
-      }
-
-      const memberIndex = existingMembers.findIndex(
-        (member) => member.name === memberId
-      );
-      if (memberIndex === -1) {
-        return res.status(404).json({ message: "Member not found in group" });
-      }
-
-      existingMembers[memberIndex].isActive = true;
-
-      db.query(
-        "UPDATE groupproject SET members = ? WHERE group_id = ?",
-        [JSON.stringify(existingMembers), groupId],
-        (updateError) => {
-          if (updateError) {
-            console.error("Error updating members:", updateError);
-            return res.status(500).json({ message: "Error updating members" });
-          }
-          res.status(200).json({ message: "Member successfully activated" });
-        }
-      );
-    }
-  );
+  const { id, member_id } = req.params;
+  updateMemberStatus(id, member_id, true, res);
 };
 
 // this function getting the data of Members

@@ -1,4 +1,4 @@
-const db = require("../config/Connection.js");
+const db = require("../config/db-connection.js");
 
 const getTasks = (req, res) => {
   db.query("SELECT * FROM tasks", (err, results) => {

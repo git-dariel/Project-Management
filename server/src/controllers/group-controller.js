@@ -81,7 +81,7 @@ const addGroups = (req, res) => {
 };
 
 // this function update the groups
-const updateGroups = (req, res) => {
+const updateGroup = (req, res) => {
   const { groupName, teamLeader, description, members, endOfProject } =
     req.body;
 
@@ -193,4 +193,4 @@ const getGroups = (req, res) => {
   });
 };
 
-module.exports = { addGroups, updateGroups, deleteGroup, getGroups };
+module.exports = { addGroups, updateGroup, deleteGroup, getGroups };

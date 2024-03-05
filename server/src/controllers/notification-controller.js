@@ -1,4 +1,4 @@
-const db = require("../config/Connection.js");
+const db = require("../config/db-connection.js");
 
 const addNotifications = (req, res) => {
   const { title, description, dateAndTime } = req.body;
@@ -21,7 +21,7 @@ const addNotifications = (req, res) => {
   });
 };
 
-const deleteNotifications = (req, res) => {
+const deleteNotification = (req, res) => {
   const { id } = req.params;
   const query = "DELETE FROM notification WHERE notifId = ?";
   const values = [id];
@@ -59,4 +59,4 @@ const getNotifications = (req, res) => {
   });
 };
 
-module.exports = { addNotifications, deleteNotifications, getNotifications };
+module.exports = { addNotifications, deleteNotification, getNotifications };

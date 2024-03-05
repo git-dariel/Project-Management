@@ -1,4 +1,4 @@
-const db = require("../config/Connection.js");
+const db = require("../config/db-connection.js");
 
 const addStages = (req, res) => {
   const { stageName } = req.body;
@@ -41,7 +41,7 @@ const addStages = (req, res) => {
   }
 };
 
-const updateStages = (req, res) => {
+const updateStage = (req, res) => {
   const { stageName } = req.body;
 
   if (!stageName) {
@@ -65,7 +65,7 @@ const updateStages = (req, res) => {
   }
 };
 
-const deleteStages = (req, res) => {
+const deleteStage = (req, res) => {
   db.query(
     "SELECT * FROM stages WHERE stages_id = ?",
     [req.params.id],
@@ -105,4 +105,4 @@ const getStages = (req, res) => {
   });
 };
 
-module.exports = { addStages, updateStages, deleteStages, getStages };
+module.exports = { addStages, updateStage, deleteStage, getStages };

@@ -2,15 +2,15 @@ const express = require("express");
 const {
   getGroups,
   addGroups,
-  updateGroups,
+  updateGroup,
   deleteGroup,
 } = require("../controllers/group-controller");
 const router = express.Router();
 
 // Group routes
-router.route("/").get(getGroups);
-router.route("/").post(addGroups);
-router.route("/:id").put(updateGroups);
-router.route("/:id").delete(deleteGroup);
+router.route("/groups").get(getGroups);
+router.route("/groups").post(addGroups);
+router.route("/groups/:id").put(updateGroup);
+router.route("/groups/:id").delete(deleteGroup);
 
 module.exports = router;

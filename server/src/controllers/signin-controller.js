@@ -36,7 +36,7 @@ const userLogIn = (req, res) => {
 };
 
 // check if the user is logged in
-const checkLogin = (req, res) => {
+const getUserLoginStatus = (req, res) => {
   if (req.session.user) {
     res.send({ loggedIn: true, user: req.session.user });
   } else {
@@ -44,4 +44,4 @@ const checkLogin = (req, res) => {
   }
 };
 
-module.exports = { userLogIn, checkLogin };
+module.exports = { userLogIn, getUserLoginStatus };
