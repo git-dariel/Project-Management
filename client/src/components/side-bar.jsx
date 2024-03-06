@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Home, Briefcase, Bell, User, LogOut, ChevronLeft, ChevronRight, GroupIcon, Users, LayoutDashboardIcon } from "lucide-react";
+import { Briefcase, Bell, User, LogOut, ChevronLeft, ChevronRight, GroupIcon, Users, LayoutDashboardIcon } from "lucide-react";
 
 const Sidebar = ({ children }) => {
-  const [isMinimized, setIsMinimized] = useState(true);
+  const [isMinimized, setIsMinimized] = useState(false);
 
   const toggleSidebar = () => {
     setIsMinimized(!isMinimized);

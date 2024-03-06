@@ -2,7 +2,7 @@ import { PlusCircle } from 'lucide-react';
 import React, { useState } from 'react';
 import CreateNew from '../modals/CreateNew';
 import { Link } from 'react-router-dom';
-import { dummyProjects } from '../components/projectdata';
+import { dummyProjects } from '../dummy/data';
 
 function Projects() {
   

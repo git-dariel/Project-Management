@@ -1,14 +1,14 @@
 import { Route, Routes, Navigate } from "react-router-dom";
+import Sidebar from "./components/side-bar";
 import Login from "./pages/forms/Login";
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
-import Sidebar from "./components/SideBar";
 import Groups from "./pages/Groups";
 import Notification from "./pages/Notification";
 import Profile from "./pages/Profile";
 import { useState } from "react";
 import Signup from "./pages/forms/Signup";
-import ProjectView from "./components/ProjectView";
+import ProjectView from "./components/projects/ProjectView";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

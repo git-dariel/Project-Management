@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Plus, Users, PlusCircle } from 'lucide-react';
+import ComingSoon from '../ui/comingsoon';
 
 function Groups() {
   // Dummy data for groups
@@ -31,7 +32,8 @@ function Groups() {
   };
 
   return (
-    <div className='flex h-full w-full bg-gray-200 justify-center p-5'>
+    <div className='flex h-full w-full bg-gray-200 justify-center p-5 relative'>
+      <ComingSoon/>
       <div className='bg-white rounded-lg h-full w-full shadow-lg p-5 relative'>
         <div className='header mb-4 flex justify-between items-center'>
           <div className='text-2xl font-bold text-gray-700 mb-2'>
