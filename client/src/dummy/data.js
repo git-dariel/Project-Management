@@ -1,4 +1,12 @@
-// Mocked or dummy data
+export const dummyProjects = [
+    { id: 1, name: 'SM Marikina', code: '0001', date: '2024-02-18' },
+    { id: 2, name: 'SM Lopez', code: '0002', date: '2024-02-17' },
+    { id: 3, name: 'SM San Pablo', code: '0003', date: '2024-02-16' },
+    { id: 4, name: 'DD Meridian Tower', code: '0004', date: '2024-02-15' },
+    { id: 5, name: 'SM Gold Reso', code: '0005', date: '2024-02-14' },
+  ];
+
+// Mocked data on gantt chart
 export const mockedSchedulerData = [
     {
         id: "070ac5b5-8369-4cd2-8ba2-0a209130cc60",
@@ -221,3 +229,46 @@ export const mockedSchedulerData = [
         ]
     },
 ];
+
+export const notificationData = [
+    {
+      id: 1,
+      title: "New Message",
+      description: "You have received a new message from John Doe.",
+      timestamp: new Date("2024-02-27T08:00:00"),
+      isRead: false
+    },
+    {
+      id: 2,
+      title: "New Comment",
+      description: "John Doe commented on your post.",
+      timestamp: new Date("2024-02-26T12:30:00"),
+      isRead: true
+    },
+    {
+      id: 3,
+      title: "Reminder",
+      description: "Your meeting starts in 1 hour.",
+      timestamp: new Date("2024-02-25T14:00:00"),
+      isRead: false
+    },
+    
+  ];
+  
+
+export const profileData = {
+    name: "Joshua Flores",
+    username: "joshuaflores",
+    email: "joshuflores.garlan@gmail.com",
+    bio: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    location: "Gumaca, Quezon",
+    avatarUrl: "https://via.placeholder.com/150", 
+  };
+
+  export const progressData = [
+    { groupName: "Group A", progress: 70 },
+    { groupName: "Group B", progress: 50 },
+    { groupName: "Group C", progress: 30 },
+    
+  ];
+  
