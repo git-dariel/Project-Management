@@ -1,28 +1,45 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../../models/user-model");
+const bcrypt = require("bcrypt");
 
-const getUsers = asyncHandler(async (req, res) => {
-  const users = await User.find();
-  res.status(200).json({ users });
-});
-
-const addUser = asyncHandler(async (req, res) => {
+//*desc Register a user
+//*route POST /api/users/register
+//*access public
+const registerUser = asyncHandler(async (req, res) => {
   const { firstname, lastname, position, email, password } = req.body;
   if (!firstname || !lastname || !position || !email || !password) {
     res.status(400);
     throw new Error("Missing required fields");
   } else {
-    const user = await User.create({
-      firstname,
-      lastname,
-      position,
-      email,
-      password,
-    });
-    res.status(201).json({ user });
+    const userAvailable = await User.findOne({ email });
+    if (userAvailable) {
+      res.status(400);
+      throw new Error("User already exists");
+    } else {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      console.log(hashedPassword);
+      const user = await User.create({
+        firstname,
+        lastname,
+        position,
+        email,
+        password: hashedPassword,
+      });
+
+      console.log(user);
+      if (user) {
+        res.status(201).json({ _id: user.id, email: user.email });
+      } else {
+        res.status(404);
+        throw new Error("User data is not valid");
+      }
+    }
   }
 });
 
+//*desc Get the user
+//*route GET /api/users/:id
+//*access public
 const getUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
   if (!user) {
@@ -33,6 +50,9 @@ const getUser = asyncHandler(async (req, res) => {
   }
 });
 
+//*desc Update the user
+//*route PUT /api/users/:id
+//*access public
 const updateUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
   if (!user) {
@@ -46,6 +66,9 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
+//*desc Delete the user
+//*route DELETE /api/users/:id
+//*access public
 const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
   if (!user) {
@@ -57,4 +80,4 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { getUsers, addUser, getUser, updateUser, deleteUser };
+module.exports = { registerUser, getUser, updateUser, deleteUser };

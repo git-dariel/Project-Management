@@ -16,7 +16,7 @@ app.use(require("./config/cors-config.js"));
 app.use(require("./config/session-config.js"));
 
 app.use("/api", require("./route/users/signup-route.js"));
-// app.use("/api", require("./routes/users/signin-route.js"));
+app.use("/api", require("./route/users/signin-route.js"));
 // app.use("/api", require("./routes/admin/group-route.js"));
 // app.use("/api", require("./routes/admin/member-route.js"));
 // app.use("/api", require("./routes/admin/stage-route.js"));
