@@ -9,32 +9,33 @@ const registerUser = asyncHandler(async (req, res) => {
   const { firstname, lastname, position, email, password } = req.body;
   if (!firstname || !lastname || !position || !email || !password) {
     res.status(400);
-    throw new Error("Missing required fields");
-  } else {
-    const userAvailable = await User.findOne({ email });
-    if (userAvailable) {
-      res.status(400);
-      throw new Error("User already exists");
-    } else {
-      const hashedPassword = await bcrypt.hash(password, 10);
-      console.log(hashedPassword);
-      const user = await User.create({
-        firstname,
-        lastname,
-        position,
-        email,
-        password: hashedPassword,
-      });
-
-      console.log(user);
-      if (user) {
-        res.status(201).json({ _id: user.id, email: user.email });
-      } else {
-        res.status(404);
-        throw new Error("User data is not valid");
-      }
-    }
+    throw new Error("All fields are mandatory!");
   }
+  const userAvailable = await User.findOne({ email });
+  if (userAvailable) {
+    res.status(400);
+    throw new Error("User already registered!");
+  }
+
+  //Hash password
+  const hashedPassword = await bcrypt.hash(password, 10);
+  console.log("Hashed Password: ", hashedPassword);
+  const user = await User.create({
+    firstname,
+    lastname,
+    position,
+    email,
+    password: hashedPassword,
+  });
+
+  console.log(`User created ${user}`);
+  if (user) {
+    res.status(201).json({ _id: user.id, email: user.email });
+  } else {
+    res.status(400);
+    throw new Error("User data is not valid");
+  }
+  res.json({ message: "Register the user" });
 });
 
 //*desc Get the user
