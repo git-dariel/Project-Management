@@ -1,3 +1,5 @@
+import { CheckCircle, PackageIcon, PauseCircleIcon, PlayIcon } from 'lucide-react'
+
 export const dummyProjects = [
     { id: 1, name: 'SM Marikina', code: '0001', date: '2024-02-18' },
     { id: 2, name: 'SM Lopez', code: '0002', date: '2024-02-17' },
@@ -271,4 +273,133 @@ export const profileData = {
     { groupName: "Group C", progress: 30 },
     
   ];
+  
+
+  export const statusData = [
+    {
+      group: "Group 1",
+      projects: [
+        {
+          name: "CENTURY SPIRE",
+          status: [
+            "Ongoing Construction",
+            "Ongoing Construction",
+            "Ongoing Construction",
+            "For submission GF site visit report tomorrow Aug. 8, 2023.",
+            "8/17/2023 - sent LGF Food Court Switching Layout",
+          ]
+        },
+        {
+          name: "GLAS OFFICE TOWER",
+          status: [
+            "Ongoing Construction",
+            "For follow-up on the project status.",
+            "Awaiting on the response",
+            "Followed-up on project status. Awaiting on the response.",
+            "Followed-up on project status. Awaiting on the response."
+          ]
+        },
+        // Add more projects here...
+      ]
+    },
+    // Add more groups here...
+  ];
+
+
+  //New Dashboard Data
+  
+  export const statusData1 = {
+    totalProjects: 17,
+    projectsInProgress: 15,
+    completedProjects: 2,
+    projectsOnHold: 1
+  };
+
+  export const cardData = [
+    { 
+      title: "Total Projects", 
+      value: statusData1.totalProjects, 
+      icon: PackageIcon, 
+      description: "Total number of projects in the system." 
+    },
+    { 
+      title: "Projects in Progress", 
+      value: statusData1.projectsInProgress, 
+      icon: PlayIcon, 
+      description: "Number of projects in progress." 
+    },
+    { 
+      title: "Completed Projects", 
+      value: statusData1.completedProjects, 
+      icon: CheckCircle, 
+      description: "Number of projects completed." 
+    },
+    { 
+      title: "Projects On Hold", 
+      value: statusData1.projectsOnHold, 
+      icon: PauseCircleIcon, 
+      description: "Number of projects currently on hold." 
+    }
+  ];
+
+
+  export const projectProgressByStage = [
+    {
+      stage: "Schematic Design Phase",
+      totalProjects: 3,
+      averageProgress: 17
+    },
+    {
+      stage: "Design Development Phase",
+      totalProjects: 3,
+      averageProgress: 16
+    },
+    {
+      stage: "Tender Document Phase",
+      totalProjects: 4,
+      averageProgress: 8
+    },
+    {
+      stage: "Tender Evaluation / Construction Administration",
+      totalProjects: 7,
+      averageProgress: 20
+    }
+  ];
+  
+  console.log("Project Progress by Stage:");
+  projectProgressByStage.forEach(stage => {
+    console.log("Stage:", stage.stage);
+    console.log("Total Projects:", stage.totalProjects);
+    console.log("Average Progress:", stage.averageProgress + "%");
+  });
+
+  export const projectAgingAnalysis = {
+    averageDaysSinceStart: {
+      minimum: 14,
+      maximum: 2167,
+      average: 898
+    },
+    projectsOverdue: {
+      totalProjects: 9,
+      averageOverdueDays: 674
+    }
+  };
+
+  export const projectStatus = {
+    projectName: "Century Spire",
+    stage: "Tender Evaluation / Construction Administration",
+    progress: "0%",
+    startDate: "2/11/2021",
+    projectedEndDate: "12/31/2019",
+    actualEndDate: "3/6/2024",
+    aging: 1527,
+    currentStatus: "Ongoing Construction",
+    latestUpdates: [
+      "Project turned over in 2023.",
+      "To submit COC."
+    ]
+  };
+  
+  
+
   
