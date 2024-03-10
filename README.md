@@ -10,7 +10,7 @@ Our project management simplifies planning, organizing, and tracking tasks! It h
 
 - React.js
 - Express.js
-- MySQL
+- MongoDB
 - TailwindCSS
 - Insomnia
 - Figma

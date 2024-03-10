@@ -34,11 +34,27 @@ const getUser = asyncHandler(async (req, res) => {
 });
 
 const updateUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Update user for ${req.params.id}` });
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  } else {
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.status(200).json({ message: `Update success`, user: updatedUser });
+  }
 });
 
 const deleteUser = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Delete user for ${req.params.id}` });
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  } else {
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: `Delete success`, user: deletedUser });
+  }
 });
 
 module.exports = { getUsers, addUser, getUser, updateUser, deleteUser };
