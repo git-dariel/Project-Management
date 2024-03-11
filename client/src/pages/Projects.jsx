@@ -1,6 +1,6 @@
 import { PlusCircle } from 'lucide-react';
 import React, { useState } from 'react';
-import CreateNew from '../modals/CreateNew';
+import CreateNew from '../forms/new-project';
 import { Link } from 'react-router-dom';
 import { dummyProjects } from '../dummy/data';
 
