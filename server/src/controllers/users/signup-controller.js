@@ -1,66 +1,104 @@
-// const db = require("../../database/db-connection");
-// const bcrypt = require("bcrypt");
+const asyncHandler = require("express-async-handler");
+const User = require("../../models/users/user-model");
+const bcrypt = require("bcrypt");
+const validator = require("validator");
 
-// const saltRounds = 10;
+//*Get the user
+const getUser = asyncHandler(async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(400);
+    throw error;
+  }
+});
 
-// const usersAuth = (req, res) => {
-//   const { firstname, lastname, position, email, password } = req.body;
+//*Register a user, access public
+const registerUser = asyncHandler(async (req, res) => {
+  try {
+    const { firstname, lastname, position, email, password } = req.body;
+    if (!firstname.trim() || !lastname.trim() || !position.trim() || !email.trim() || !password) {
+      throw new Error("All fields are mandatory!");
+    }
 
-//   console.log("req.body:", req.body);
+    if (!validator.isEmail(email.trim())) {
+      res.status(400);
+      throw new Error("Invalid email format");
+    }
 
-//   if (!password || !email || !firstname || !lastname || !position) {
-//     res.status(500);
-//     throw new Error("Missing required fields");
-//   }
+    const userAvailable = await User.findOne({ email: email.trim() });
+    if (userAvailable) {
+      throw new Error("User already registered!");
+    }
 
-//   db.query(
-//     "SELECT * FROM users WHERE email = ?",
-//     [email],
-//     (selectErr, selectResult) => {
-//       if (selectErr) {
-//         console.error("Error checking existing user:", selectErr);
-//         return res
-//           .status(500)
-//           .json({ message: "Error checking existing user" });
-//       } else if (selectResult.length > 0) {
-//         return res.status(409).json({ message: "User already exists" });
-//       } else {
-//         bcrypt.hash(password, saltRounds, (hashErr, hash) => {
-//           if (hashErr) {
-//             console.error("Error hashing password:", hashErr);
-//             return res.status(500).json({ message: "Error hashing password" });
-//           }
+    const hashedPassword = await bcrypt.hash(password, 10);
 
-//           db.query(
-//             "INSERT INTO users (firstname, lastname, position, email, password) VALUES (?, ?, ?, ?, ?)",
-//             [firstname, lastname, position, email, hash],
-//             (insertErr, result) => {
-//               if (insertErr) {
-//                 console.error(
-//                   "Error inserting user into the database:",
-//                   insertErr
-//                 );
-//                 return res
-//                   .status(500)
-//                   .json({ message: "Error registering user" });
-//               }
-//               res.json({ message: "User registered successfully" });
-//             }
-//           );
-//         });
-//       }
-//     }
-//   );
-// };
+    const user = await User.create({
+      firstname: firstname.trim(),
+      lastname: lastname.trim(),
+      position: position.trim(),
+      email: email.trim(),
+      password: hashedPassword,
+    });
+    res.status(201).json({ _id: user.id, email: user.email });
+  } catch (error) {
+    res.status(400);
+    throw error;
+  }
+});
 
-// const getUsers = (req, res) => {
-//   db.query("SELECT * FROM users", (err, result) => {
-//     if (err) {
-//       res.send({ err: err });
-//     } else {
-//       res.send({ message: "Users successfully retrieved", data: result });
-//     }
-//   });
-// };
+//*Update the user, access public
+const updateUser = asyncHandler(async (req, res) => {
+  try {
+    const { email, password, ...otherUpdates } = req.body;
 
-// module.exports = { usersAuth, getUsers };
+    if (email && !validator.isEmail(email.trim())) {
+      res.status(400);
+      throw new Error("Invalid email format");
+    }
+
+    let updates = { ...otherUpdates };
+    if (password) {
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updates.password = hashedPassword;
+    }
+
+    if (email) updates.email = email.trim();
+
+    const updatedUser = await User.findByIdAndUpdate(req.params.id, updates, {
+      new: true,
+    });
+
+    if (!updatedUser) {
+      res.status(400);
+      throw new Error("User not found");
+    }
+
+    const { password: _, ...userWithoutPassword } = updatedUser.toObject();
+
+    res.status(200).json({ message: "Update successful", user: userWithoutPassword });
+  } catch (error) {
+    res.status(500).json({ message: "An error occurred during the update.", error: error.message });
+  }
+});
+
+//*Delete the user, access public
+const deleteUser = asyncHandler(async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    const deletedUser = await User.findByIdAndDelete(req.params.id);
+    res.status(200).json({ message: "Delete successful", user: deletedUser });
+  } catch (error) {
+    res.status(400);
+    throw error;
+  }
+});
+
+module.exports = { registerUser, getUser, updateUser, deleteUser };

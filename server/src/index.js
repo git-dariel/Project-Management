@@ -15,9 +15,9 @@ app.use(express.json());
 app.use(require("./config/cors-config.js"));
 app.use(require("./config/session-config.js"));
 
-app.use("/api", require("./route/users/signup-route.js"));
-app.use("/api", require("./route/users/signin-route.js"));
-app.use("/api", require("./route/admin/projects-route.js"));
+app.use("/api", require("./routes/users/signup-route.js"));
+app.use("/api", require("./routes/users/signin-route.js"));
+app.use("/api", require("./routes/admin/projects-route.js"));
 // app.use("/api", require("./routes/admin/member-route.js"));
 // app.use("/api", require("./routes/admin/stage-route.js"));
 // app.use("/api", require("./routes/admin/task-route.js"));
