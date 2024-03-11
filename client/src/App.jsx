@@ -1,13 +1,13 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import Sidebar from "./components/side-bar";
-import Login from "./pages/forms/Login";
+import Sidebar from "./components/common/side-bar";
+import Login from "./auth/Login";
+import Signup from "./auth/Signup";
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import Groups from "./pages/Groups";
 import Notification from "./pages/Notification";
 import Profile from "./pages/Profile";
 import { useState } from "react";
-import Signup from "./pages/forms/Signup";
 import ProjectView from "./components/projects/ProjectView";
 
 function App() {
