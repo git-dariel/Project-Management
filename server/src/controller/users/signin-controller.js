@@ -28,6 +28,13 @@ const loginUser = asyncHandler(async (req, res) => {
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: "15m" }
     );
+
+    req.session.user = {
+      id: user.id,
+      email: user.email,
+      position: user.position,
+    };
+
     res.status(200).json({ accessToken });
   } else {
     res.status(401);
@@ -37,9 +44,13 @@ const loginUser = asyncHandler(async (req, res) => {
 
 //*desc Current user info
 //*route POST /api/users/current
-//*access public
+//*access private
 const currentUser = asyncHandler(async (req, res) => {
-  res.json(req.user);
+  // Access user info from session
+  if (req.session.user) {
+    res.json(req.session.user);
+  } else {
+    res.status(401).send("No active session");
+  }
 });
-
 module.exports = { loginUser, currentUser };
