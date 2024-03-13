@@ -1,10 +1,12 @@
 import React from 'react'
 import ComingSoon from '../ui/comingsoon'
 import { profileData } from '../dummy/data'
+import Sidebar from '../components/layout/side-bar'
 
 function Profile() {
   return (
-    <div className='flex h-full w-full bg-gray-200 justify-center p-5 relative'>
+    <Sidebar>
+      <div className='flex h-full w-full bg-gray-200 justify-center p-5 relative'>
       <ComingSoon />
       <div className='bg-white rounded-lg shadow-lg p-5 w-full max-w-md'>
         <div className="flex items-center justify-center mb-5">
@@ -26,6 +28,7 @@ function Profile() {
         </div>
       </div>
     </div>
+    </Sidebar>
   )
 }
 

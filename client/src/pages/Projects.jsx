@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import CreateNew from '../forms/new-project';
 import { Link } from 'react-router-dom';
 import { dummyProjects } from '../dummy/data';
+import Sidebar from '../components/layout/side-bar';
 
 function Projects() {
   
@@ -13,7 +14,8 @@ function Projects() {
   };
 
   return (
-    <div className='flex h-full w-full bg-gray-200 justify-center p-5'>
+    <Sidebar>
+      <div className='flex h-full w-full bg-gray-200 justify-center p-5'>
       <div className='bg-white rounded-lg h-full w-full shadow-lg p-5 relative' style={{ boxShadow: '0px 5px 5px -5px rgba(0, 0, 0, 0.2)' }}>
         <div className='header mb-4'>
           <div className='text-2xl font-bold text-gray-700 mb-2'>
@@ -62,6 +64,7 @@ function Projects() {
         </div>
       </div>
     </div>
+    </Sidebar>
   );
 }
 

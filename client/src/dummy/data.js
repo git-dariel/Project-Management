@@ -385,6 +385,14 @@ export const profileData = {
     }
   };
 
+  export const projectAgingAnalysisData = [
+    { name: 'Project A', averageDays: 14, averageOverdueDays: 0, category: 'Stage 1' },
+    { name: 'Project B', averageDays: 2167, averageOverdueDays: 0, category: 'Stage 2' },
+    { name: 'Project C', averageDays: 898, averageOverdueDays: 0, category: 'Stage 1' },
+    { name: 'Project D', averageDays: 0, averageOverdueDays: 674, category: 'Stage 3' }
+  ];
+  
+
   export const projectStatus = {
     projectName: "Century Spire",
     stage: "Tender Evaluation / Construction Administration",
