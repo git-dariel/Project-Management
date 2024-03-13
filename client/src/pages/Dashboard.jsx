@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ComingSoon from '../ui/comingsoon';
-import { cardData } from '../dummy/data';
+import { cardData, projectAgingAnalysisData } from '../dummy/data';
 import Cards from '../components/dashboard/cards';
-import { UserCircle } from 'lucide-react';
 import UserDropdown from '../ui/users/profile';
+import ProjectAgingChart from '../components/dashboard/aging';
+import Sidebar from '../components/layout/side-bar';
 
 function Dashboard() {
 
   return (
-    <div className="flex flex-col h-full relative bg-gradient-to-tl from-slate-50 to-slate-400">
+    <Sidebar>
+      <div className="flex flex-col h-screen relative bg-gradient-to-tl from-slate-50 to-slate-400 overflow-auto">
       {/* <ComingSoon/> */}
       <div className="h-full m-5 p-4 rounded-2xl" style={{background:" rgba(255, 255, 255, 0.54)"}}>
         
@@ -21,10 +23,12 @@ function Dashboard() {
         
         {/* Chart */}
         <div>
-          <h1 className="text-xl font-semibold text-gray-600">Overview</h1>
-          </div>
+          <h1 className="text-xl font-semibold text-gray-600 mb-1">Overview</h1>
+          <ProjectAgingChart data={projectAgingAnalysisData}/>
+        </div>
       </div>
     </div>
+    </Sidebar>
   );
 }
 

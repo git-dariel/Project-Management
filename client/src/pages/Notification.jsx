@@ -1,10 +1,12 @@
 import React from 'react'
 import ComingSoon from '../ui/comingsoon'
 import { notificationData } from '../dummy/data'
+import Sidebar from '../components/layout/side-bar'
 
 function Notification() {
   return (
-    <div className='flex h-full w-full bg-gray-200 justify-center p-5 relative'>
+    <Sidebar>
+      <div className='flex h-full w-full bg-gray-200 justify-center p-5 relative'>
       <ComingSoon/>
         <div className='bg-white rounded-lg h-full w-full shadow-lg p-5 relative'>
           <h1 className="text-2xl font-bold mb-4">Notifications</h1>
@@ -20,6 +22,7 @@ function Notification() {
             </ul>
         </div>
     </div>
+    </Sidebar>
   )
 }
 
