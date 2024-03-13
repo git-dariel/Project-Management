@@ -2,7 +2,7 @@ import React from 'react';
 import ComingSoon from '../ui/comingsoon';
 import { cardData, projectAgingAnalysisData } from '../dummy/data';
 import Cards from '../components/dashboard/cards';
-import UserDropdown from '../ui/users/profile';
+import UserDropdown from '../components/users/profile';
 import ProjectAgingChart from '../components/dashboard/aging';
 import Sidebar from '../components/layout/side-bar';
 

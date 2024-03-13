@@ -1,24 +1,39 @@
 import { dummyProfile } from '../../dummy/data';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Import Link from React Router
 
 const UserDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null); // Ref for the dropdown menu
   const { name, email, avatarSrc, menuItems } = dummyProfile;
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
   };
 
+  // Close dropdown when user clicks outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownRef]);
+
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       {/* Toggle Profile */}
       <button
         id="avatarButton"
         type="button"
         onClick={toggleDropdown}
       >
-        <img src={avatarSrc} alt="User dropdown" className='rounded-full' />
+        <img src={avatarSrc} alt="User dropdown" className='rounded-full h-10 border-gray-300 border-4 hover:border-blue-200 transition-all ease-in-out duration-150 active:border-blue-300' />
       </button>
 
       {/* Dropdown menu */}

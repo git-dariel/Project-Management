@@ -4,6 +4,7 @@ import { Scheduler } from "@bitnoi.se/react-scheduler";
 import { mockedSchedulerData } from "../../dummy/data.js";
 import { useParams } from "react-router-dom";
 import { dummyProjects } from "../../dummy/data.js";
+import Sidebar from "../layout/side-bar.jsx";
 
 const ProjectView = () => {
   const { projectId } = useParams();
@@ -34,7 +35,8 @@ const ProjectView = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-200 relative">
+    <Sidebar>
+      <div className="flex flex-col h-screen bg-gray-200 relative">
       {/* Top navigation/Header */}
       <div className="bg-white p-2 w-full shadow-lg z-10">
         <div className="grid grid-cols-4">
@@ -154,6 +156,7 @@ const ProjectView = () => {
         />
       </div>
     </div>
+    </Sidebar>
   );
 };
 

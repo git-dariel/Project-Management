@@ -7,7 +7,7 @@ import Groups from "./pages/Groups";
 import Notification from "./pages/Notification";
 import Profile from "./pages/Profile";
 import { useState } from "react";
-import ProjectView from "./components/projects/ProjectView";
+import ProjectView from "./components/projects/project-view";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

@@ -34,7 +34,7 @@ function Groups() {
 
   return (
     <Sidebar>
-      <div className='flex h-full w-full bg-gray-200 justify-center p-5 relative'>
+      <div className='flex h-full w-full bg-gradient-to-tl from-slate-50 to-slate-400 justify-center p-5 relative'>
       <ComingSoon/>
       <div className='bg-white rounded-lg h-full w-full shadow-lg p-5 relative'>
         <div className='header mb-4 flex justify-between items-center'>
