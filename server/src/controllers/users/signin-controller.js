@@ -1,47 +1,52 @@
-// const db = require("../../database/db-connection");
-// const bcrypt = require("bcrypt");
-// const session = require("express-session");
+const asyncHandler = require("express-async-handler");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const User = require("../../models/users/user-model");
 
-// // Function to handle user login
-// const userLogIn = (req, res) => {
-//   const email = req.body.email;
-//   const password = req.body.password;
+//*Get users. For debugging only
+const getUsers = asyncHandler(async (req, res) => {
+  const users = await User.find({});
+  res.status(200).json(users);
+})
 
-//   if (!email || !password) {
-//     return res.status(400).json({ message: "All fields are required" });
-//   } else {
-//     // Querying the database to find the user with the provided email
-//     db.query("SELECT * FROM users WHERE email = ?", email, (err, result) => {
-//       if (err) {
-//         res.send({ err: err });
-//       }
-//       // If a user with the provided email exists
-//       else if (result.length > 0) {
-//         // Comparing the provided password with the hashed password stored in the database
-//         bcrypt.compare(password, result[0].password, (err, response) => {
-//           if (err) throw err;
-//           else if (response) {
-//             req.session.user = result;
-//             console.log(req.session.user);
-//             res.status(200).json({ message: "Log in Success" });
-//           } else {
-//             res.send({ message: "Sorry, your email or password are wrong." });
-//           }
-//         });
-//       } else {
-//         res.send({ message: "User doesn't exist" });
-//       }
-//     });
-//   }
-// };
+//*Login the user, access public
+const loginUser = asyncHandler(async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    if (!email.trim() || !password) {
+      throw new Error("Both email and password are required.");
+    }
 
-// // check if the user is logged in
-// const getUserLoginStatus = (req, res) => {
-//   if (req.session.user) {
-//     res.send({ loggedIn: true, user: req.session.user });
-//   } else {
-//     res.send({ loggedIn: false });
-//   }
-// };
+    const user = await User.findOne({ email: email.trim() });
+    if (!user || !(await bcrypt.compare(password, user.password))) {
+      throw new Error("Invalid credentials");
+    }
 
-// module.exports = { userLogIn, getUserLoginStatus };
+    const accessToken = jwt.sign(
+      { user: { id: user.id, email: user.email } },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    res.status(200).json({ accessToken });
+  } catch (error) {
+    res.status(400);
+    throw error;
+  }
+});
+
+//*Check the current user, access private
+const currentUser = asyncHandler(async (req, res) => {
+  try {
+    if (!req.user) {
+      res.status(401);
+      throw new Error("Unauthorized access. No user found.");
+    }
+    res.status(200).json({ user: req.user });
+  } catch (error) {
+    console.error(error);
+    res.status(401).json({ message: error.message });
+  }
+});
+
+module.exports = { loginUser, currentUser, getUsers };
