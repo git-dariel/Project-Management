@@ -412,11 +412,11 @@ export const profileData = {
 export const dummyProfile = {
   name: "Joshua Flores",
   email: "joshuaflores@gmail.com",
-  avatarSrc: "https://scontent.fmnl3-2.fna.fbcdn.net/v/t39.30808-1/418782011_3598003387134419_4388420038133548678_n.jpg?stp=cp0_dst-jpg_p40x40&_nc_cat=100&ccb=1-7&_nc_sid=5f2048&_nc_eui2=AeFP0-u_t7dUJQSe3c0K738bDyyzb0mVKZUPLLNvSZUplfJ-9_LgR3S91HgQ0QQnbuMX4EDNRGVVHiGELeTRJgO5&_nc_ohc=WKQqnmH3fB8AX9i7IGj&_nc_ht=scontent.fmnl3-2.fna&oh=00_AfAyd-zioGG21hZHTfL6_p_TpFJmF0Gs0NgaC4UnPJMpQg&oe=65EFCD07",
+  avatarSrc: "https://randomuser.me/api/portraits/med/men/5.jpg",
   menuItems: [
     { label: "View Profile", link: "/dashboard" },
     { label: "Settings", link: "/settings" },
-    // Add more if you want :)
+    // Add more if you want :)  
   ],
 };
 
