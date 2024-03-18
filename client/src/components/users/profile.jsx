@@ -1,4 +1,4 @@
-import { dummyProfile } from '../../dummy/data';
+import { dummyProfile } from '../../test-data/data';
 import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Import Link from React Router
 
@@ -55,7 +55,7 @@ const UserDropdown = () => {
           ))}
         </ul>
         <div className="py-1">
-          <Link to="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
+          <Link to="/" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
             Sign out
           </Link>
         </div>

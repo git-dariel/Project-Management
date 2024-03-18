@@ -1,13 +1,17 @@
 import { Route, Routes, Navigate } from "react-router-dom";
-import Login from "./auth/Login";
-import Signup from "./auth/Signup";
-import Dashboard from "./pages/Dashboard";
-import Projects from "./pages/Projects";
-import Groups from "./pages/Groups";
-import Notification from "./pages/Notification";
-import Profile from "./pages/Profile";
-import { useState } from "react";
-import ProjectView from "./components/projects/project-view";
+import { Suspense, lazy, useState } from "react";
+import ConfirmSignOut from "./components/common/dialogs/signout.confirm";
+import LoadingSkeleton from "./components/common/loading/skeleton";
+
+
+const Login = lazy(() => import("./auth/Login"));
+const Signup = lazy(()=> import("./auth/Signup"));
+const Dashboard = lazy(()=> import("./pages/Dashboard"));
+const Projects = lazy(()=> import("./pages/Projects"));
+const Groups = lazy(() => import("./pages/Groups"));
+const Notification = lazy(() => import("./pages/Notification"));
+const Profile = lazy(()=> import("./pages/Profile"));
+const ProjectView = lazy(()=> import("./components/projects/project-view"));
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -17,12 +21,9 @@ function App() {
     setIsLoggedIn(true);
   };
 
-  // Function to handle logout
-  const handleLogout = () => {
-    setIsLoggedIn(false);
-  };
   return (
     <>
+      <Suspense fallback={<div><LoadingSkeleton/></div>}>
       <Routes>
         <Route path="/" element={isLoggedIn ? <Navigate to="/dashboard" replace /> : <Login onLogin={handleLogin} />} />
         <Route path="/signup" element={<Signup/>}/>
@@ -32,7 +33,10 @@ function App() {
         <Route path="/projects/:projectId" element={<ProjectView/>}/>
         <Route path="/notifications" element={<Notification/>} />
         <Route path="/profile" element={<Profile/>}/>
+        <Route path="/test" element={<ConfirmSignOut/>}/>
+        <Route path="/loading" element={<LoadingSkeleton/>}/>
       </Routes>
+      </Suspense>
     </>
   );
 }

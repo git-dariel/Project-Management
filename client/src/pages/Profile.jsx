@@ -1,7 +1,7 @@
 import React from 'react'
-import ComingSoon from '../ui/comingsoon'
-import { profileData } from '../dummy/data'
+import { profileData } from '../test-data/data'
 import Sidebar from '../components/layout/side-bar'
+import ComingSoon from '../components/test/comingsoon'
 
 function Profile() {
   return (

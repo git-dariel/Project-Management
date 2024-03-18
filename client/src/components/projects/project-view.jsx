@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "@bitnoi.se/react-scheduler/dist/style.css";
 import { Scheduler } from "@bitnoi.se/react-scheduler";
-import { mockedSchedulerData } from "../../dummy/data.js";
+import { mockedSchedulerData } from "../../test-data/data.js";
 import { useParams } from "react-router-dom";
-import { dummyProjects } from "../../dummy/data.js";
+import { dummyProjects } from "../../test-data/data.js";
 import Sidebar from "../layout/side-bar.jsx";
 
 const ProjectView = () => {

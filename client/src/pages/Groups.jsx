@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Search, Plus, Users, PlusCircle } from 'lucide-react';
-import ComingSoon from '../ui/comingsoon';
 import Sidebar from '../components/layout/side-bar';
+import ComingSoon from '../components/test/comingsoon';
 
 function Groups() {
   // Dummy data for groups

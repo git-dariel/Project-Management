@@ -8,6 +8,7 @@ const Sidebar = ({ children }) => {
   const toggleSidebar = () => {
     setIsMinimized(!isMinimized);
   };
+  
 
   return (
     <div className="flex">
