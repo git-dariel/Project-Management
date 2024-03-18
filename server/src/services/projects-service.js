@@ -1,5 +1,7 @@
 const asyncHandler = require("express-async-handler");
-const Project = require("../../models/admin/projects-model");
+const Project = require("../models/projects-model");
+const ProjectMember = require("../models/project-member-model");
+const { trimAll } = require("../config/common-config")
 
 //*Get all Projects, access private
 const getProjects = asyncHandler(async (req, res) => {
@@ -14,28 +16,37 @@ const getProjects = asyncHandler(async (req, res) => {
 
 //*Create Project, access private
 const createProject = asyncHandler(async (req, res) => {
-  const { project_name, description, start_date, end_date, stages = [], tasks = [] } =
-    req.body;
+  const trimmedBody = trimAll(req.body);
+  const { project_name, description, start_date, end_date, stages = [], tasks = [], members = [] } = trimmedBody;
 
   try {
-    if (!project_name.trim() || !description.trim() || !start_date.trim() || !end_date.trim()) {
+    if (!project_name || !description || !start_date || !end_date || !members) {
       throw new Error("Please provide all required project details.");
     }
 
-    const projectAvailable = await Project.findOne({ project_name: project_name.trim() });
+    const projectAvailable = await Project.findOne({ project_name });
     if (projectAvailable) {
       throw new Error("Project with that name already exists!");
     }
 
     const project = await Project.create({
-      project_name: project_name.trim(),
-      description: description.trim(),
-      start_date: start_date.trim(),
-      end_date: end_date.trim(),
+      project_name,
+      description,
+      start_date,
+      end_date,
       stages,
       tasks,
       user_id: req.user.id,
     });
+
+    // add members to the project
+    const memberIds = await Promise.all(members.map(async (userId) => {
+      const member = await ProjectMember.create({ project_id: project._id, user_id: userId });
+      return member._id;
+    }));
+
+    project.members = memberIds;
+    await project.save();
 
     res.status(201).json(project);
   } catch (error) {
@@ -44,20 +55,36 @@ const createProject = asyncHandler(async (req, res) => {
   }
 });
 
+const addMemberToProject = asyncHandler(async (req, res) => {
+  const { projectId, userId } = req.body;
+  try {
+    const project = await Project.findById(projectId);
+    if (!project) {
+      res.status(404).json({ message: "Project not found" });
+      return;
+    }
+    await project.addMember(userId);
+    res.status(200).json({ message: "Member added successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 //*Update a Project, access private
 const updateProject = asyncHandler(async (req, res) => {
-  const { project_name, description, start_date, end_date, stages = [], tasks = [] } = req.body;
+  const trimmedBody = trimAll(req.body);
+  const { project_name, description, start_date, end_date, stages = [], tasks = [] } = trimmedBody;
 
   try {
-    if (!project_name.trim() || !description.trim() || !start_date.trim() || !end_date.trim()) {
+    if (!project_name || !description || !start_date || !end_date) {
       throw new Error("Please provide all required project details.");
     }
 
     const updatedProject = await Project.findByIdAndUpdate(req.params.id, {
-      project_name: project_name.trim(),
-      description: description.trim(),
-      start_date: start_date.trim(),
-      end_date: end_date.trim(),
+      project_name,
+      description,
+      start_date,
+      end_date,
       stages,
       tasks,
     }, {
@@ -88,4 +115,4 @@ const deleteProject = asyncHandler(async (req, res) => {
   }
 })
 
-module.exports = { getProjects, createProject, updateProject, deleteProject };
+module.exports = { getProjects, createProject, updateProject, deleteProject, addMemberToProject };
