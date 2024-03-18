@@ -6,6 +6,7 @@ import UserDropdown from '../components/users/profile';
 import ProjectAgingChart from '../components/dashboard/aging';
 import Sidebar from '../components/layout/side-bar';
 import Progress from '../components/dashboard/progress';
+import StatusCard from '@/components/dashboard/updates';
 
 function Dashboard() {
 
@@ -13,7 +14,8 @@ function Dashboard() {
     <Sidebar>
       <div className="flex flex-col h-screen relative bg-gradient-to-tl from-slate-50 to-slate-400 overflow-y-auto">
       {/* <ComingSoon/> */}
-      <div className="flex flex-col h-full m-5 p-4 rounded-2xl overflow-y-auto" style={{background:" rgba(255, 255, 255, 0.54)"}}>
+      <div className="flex flex-col h-full m-5 p-4 rounded-2xl overflow-y-auto scroll-m-0" style={{background:" rgba(255, 255, 255, 0.54)",
+    scrollbarWidth:"none"}}>
         
         {/* Header */}
         <section>
@@ -32,6 +34,12 @@ function Dashboard() {
           <div className='grid grid-cols-1 gap-4 transition-all lg:grid-cols-2'>
           <ProjectAgingChart data={projectAgingAnalysisData}/>
           <Progress/>
+          </div>
+        </section>
+
+        <section>
+          <div>
+            <StatusCard/>
           </div>
         </section>   
       </div>

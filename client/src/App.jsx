@@ -4,8 +4,8 @@ import ConfirmSignOut from "./components/common/dialogs/signout.confirm";
 import LoadingSkeleton from "./components/common/loading/skeleton";
 
 
-const Login = lazy(() => import("./auth/Login"));
-const Signup = lazy(()=> import("./auth/Signup"));
+const Login = lazy(() => import("./pages/auth/Login"));
+const Signup = lazy(()=> import("./pages/auth/Signup"));
 const Dashboard = lazy(()=> import("./pages/Dashboard"));
 const Projects = lazy(()=> import("./pages/Projects"));
 const Groups = lazy(() => import("./pages/Groups"));

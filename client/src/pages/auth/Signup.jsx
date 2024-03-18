@@ -3,39 +3,11 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 
 function Signup() {
-  const [firstname, setFirstName] = useState("");
-  const [lastname, setLastName] = useState("");
-  const [position, setPosition] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here
-    if (!firstname || !lastname || !position || !email || !password) {
-      return console.log("All fields are required");
-    } else {
-      try {
-        if (password === passwordConfirmation) {
-          const response = await axios.post(
-            "http://localhost:8000/api/users/signup",
-            {
-              firstname: firstname,
-              lastname: lastname,
-              position: position,
-              email: email,
-              password: passwordConfirmation,
-            }
-          );
-          console.log(`You are successfully registered. ${response}`);
-        } else {
-          console.log("Passwords do not match");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    }
   };
 
   return (

@@ -1,6 +1,6 @@
 import { PlusCircle } from 'lucide-react';
 import React, { useState } from 'react';
-import CreateNew from '../forms/new-project';
+import CreateNew from '../components/forms/new-project';
 import { Link } from 'react-router-dom';
 import { dummyProjects } from '../test-data/data';
 import Sidebar from '../components/layout/side-bar';
