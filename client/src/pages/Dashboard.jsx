@@ -32,13 +32,22 @@ function Dashboard() {
         {/* Chart */}
         <section>
           <div className='grid grid-cols-1 gap-4 transition-all lg:grid-cols-2'>
-          <ProjectAgingChart data={projectAgingAnalysisData}/>
-          <Progress/>
+           {/* Project Aging Chart */}
+           <div className="mb-4">
+              <h2 className="text-xl font-semibold text-gray-800 mb-2">Project Aging Analysis</h2>
+              <ProjectAgingChart data={projectAgingAnalysisData}/>
+            </div>
+
+            {/* Progress */}
+            <div>
+              <h2 className="text-xl font-semibold text-gray-800 mb-2">Overall Progress</h2>
+              <Progress/>
+            </div>
           </div>
         </section>
 
         <section>
-          <div>
+          <div className='transition-all'>
             <StatusCard/>
           </div>
         </section>   

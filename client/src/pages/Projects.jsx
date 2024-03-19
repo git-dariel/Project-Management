@@ -15,8 +15,9 @@ function Projects() {
 
   return (
     <Sidebar>
-      <div className='flex h-screen w-full bg-gradient-to-tl from-slate-50 to-slate-400 justify-center p-5'>
-      <div className='rounded-lg h-full w-full shadow-lg p-5 relative' style={{ boxShadow: '0px 5px 5px -5px rgba(0, 0, 0, 0.2)', background:" rgba(255, 255, 255, 0.54)" }}>
+      <div className="flex flex-col h-screen relative bg-gradient-to-tl from-slate-50 to-slate-400 overflow-y-auto">
+      <div className="flex flex-col h-full m-5 p-4 rounded-2xl overflow-y-auto scroll-m-0" style={{background:" rgba(255, 255, 255, 0.54)",
+    scrollbarWidth:"none"}}>
         <div className='header mb-4'>
           <div className='text-2xl font-bold text-gray-700 mb-2'>
             All Projects

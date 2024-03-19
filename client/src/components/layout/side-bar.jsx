@@ -1,9 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Briefcase, Bell, User, LogOut, ChevronLeft, ChevronRight, GroupIcon, Users, LayoutDashboardIcon } from "lucide-react";
 
 const Sidebar = ({ children }) => {
-  const [isMinimized, setIsMinimized] = useState(false);
+  // Using local storage to keep sidebar state
+  const [isMinimized, setIsMinimized] = useState(() => {
+    const storedValue = localStorage.getItem("sidebarMinimized");
+    return storedValue ? JSON.parse(storedValue) : false;
+  });
+
+  // Update local storage when the state changes
+  useEffect(() => {
+    localStorage.setItem("sidebarMinimized", JSON.stringify(isMinimized));
+  }, [isMinimized]);
 
   const toggleSidebar = () => {
     setIsMinimized(!isMinimized);

@@ -6,13 +6,13 @@ import { ResponsiveContainer } from 'recharts';
 
 
 const Progress = () => {
-  const progressData = 75;
+  const progressData = 75; //just to visualize progress
   return (
     <div>
       <section>
         <ResponsiveContainer width="100%" height={300}
-        className={"bg-transparent py-4 rounded-lg shadow-md mb-4 flex items-center relative"}>
-          <div className='flex relative m-5 w-56'>
+        className={"bg-transparent p-4 rounded-lg shadow-md mb-4 flex flex-col items-center relative"}>
+          <div className='flex m-5 sm:w-56 md:min-w-56 lg:w-56'>
             <CircularProgressbar
             value={progressData}
             text={`${progressData}%`}
