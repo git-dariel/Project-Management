@@ -1,11 +1,14 @@
+import { dummyProjects } from '@/test-data/projects.data';
+import { mockedSchedulerData } from '@/test-data/sched.data';
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8000/api/projects'; 
+
+const BASE_URL = 'http://localhost:8000/api';
 
 const projectService = {
   getProjects: async () => {
     try {
-      const response = await axios.get(BASE_URL);
+      const response = await axios.get(`${BASE_URL}/projects`);
       return response.data;
     } catch (error) {
       throw new Error(error.response.data.message || 'Failed to get projects');
@@ -14,7 +17,7 @@ const projectService = {
 
   createProject: async (project) => {
     try {
-      const response = await axios.post(BASE_URL, project);
+      const response = await axios.post(`${BASE_URL}/projects`, project);
       return response.data;
     } catch (error) {
       throw new Error(error.response.data.message || 'Failed to create project');
@@ -23,7 +26,7 @@ const projectService = {
 
   updateProject: async (projectId, project) => {
     try {
-      const response = await axios.put(`${BASE_URL}/${projectId}`, project);
+      const response = await axios.put(`${BASE_URL}/projects/${projectId}`, project);
       return response.data;
     } catch (error) {
       throw new Error(error.response.data.message || 'Failed to update project');
@@ -32,7 +35,7 @@ const projectService = {
 
   deleteProject: async (projectId) => {
     try {
-      const response = await axios.delete(`${BASE_URL}/${projectId}`);
+      const response = await axios.delete(`${BASE_URL}/projects/${projectId}`);
       return response.data;
     } catch (error) {
       throw new Error(error.response.data.message || 'Failed to delete project');
@@ -41,10 +44,26 @@ const projectService = {
 
   addMemberToProject: async (projectId, userId) => {
     try {
-      const response = await axios.post(`${BASE_URL}/add-member`, { projectId, userId });
+      const response = await axios.post(`${BASE_URL}/projects/${projectId}/member`, { userId });
       return response.data;
     } catch (error) {
       throw new Error(error.response.data.message || 'Failed to add member to project');
+    }
+  },
+  //mock service
+  getSchedulerData: async () => {
+    try {
+      return mockedSchedulerData;
+    } catch (error) {
+      throw new Error('Failed to get mocked projects');
+    }
+  },
+
+  getAllProjects: async () => {
+    try {
+      return dummyProjects;
+    } catch (error) {
+      throw new Error('Failed to get mocked projects');
     }
   }
 };

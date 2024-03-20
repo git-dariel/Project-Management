@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8000/api/project-members';
+const BASE_URL = 'http://localhost:8000/api';
 
 const projectMemberService = {
   getProjectMembers: async (projectId) => {
     try {
-      const response = await axios.get(`${BASE_URL}/${projectId}`);
+      const response = await axios.get(`${BASE_URL}/project-members/${projectId}`);
       return response.data;
     } catch (error) {
       throw new Error(error.response.data.message || 'Failed to get project members');
@@ -14,7 +14,7 @@ const projectMemberService = {
 
   deactivateMember: async (projectId, userId) => {
     try {
-      const response = await axios.put(`${BASE_URL}/deactivate`, { project_id: projectId, user_id: userId });
+      const response = await axios.put(`${BASE_URL}/project-members/deactivate`, { project_id: projectId, user_id: userId });
       return response.data;
     } catch (error) {
       throw new Error(error.response.data.message || 'Failed to deactivate member');
@@ -23,7 +23,7 @@ const projectMemberService = {
 
   activateMember: async (projectId, userId) => {
     try {
-      const response = await axios.put(`${BASE_URL}/activate`, { project_id: projectId, user_id: userId });
+      const response = await axios.put(`${BASE_URL}/project-members/activate`, { project_id: projectId, user_id: userId });
       return response.data;
     } catch (error) {
       throw new Error(error.response.data.message || 'Failed to activate member');
