@@ -23,7 +23,7 @@ const userService = {
 
   updateUser: async (user) => {
     try {
-      const response = await axios.post(`${BASE_URL}/users/update/${user.id}`, user);
+      const response = await axios.put(`${BASE_URL}/users/${user.id}`, user);
       return response.data;
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Failed to update user');
@@ -32,7 +32,7 @@ const userService = {
 
   deleteUser: async (userId) => {
     try {
-      const response = await axios.delete(`${BASE_URL}/users/delete/${userId}`);
+      const response = await axios.delete(`${BASE_URL}/users/${userId}`);
       return response.data;
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Failed to delete user');
