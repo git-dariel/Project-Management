@@ -3,6 +3,16 @@ import axios from 'axios';
 const BASE_URL = 'http://localhost:8000/api';
 
 const userService = {
+  // validation function
+  setAuthToken: (token) => {
+    if (token) {
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    } else {
+      delete axios.defaults.headers.common['Authorization'];
+    }
+  },
+
+ 
   getUserById: async (userId) => {
     try {
       const response = await axios.get(`${BASE_URL}/users/${userId}`);
@@ -12,6 +22,7 @@ const userService = {
     }
   },
 
+  
   registerUser: async (user) => {
     try {
       const response = await axios.post(`${BASE_URL}/users/register`, user);
@@ -21,6 +32,7 @@ const userService = {
     }
   },
 
+  
   updateUser: async (user) => {
     try {
       const response = await axios.put(`${BASE_URL}/users/${user.id}`, user);
@@ -30,6 +42,7 @@ const userService = {
     }
   },
 
+  
   deleteUser: async (userId) => {
     try {
       const response = await axios.delete(`${BASE_URL}/users/${userId}`);
@@ -39,6 +52,7 @@ const userService = {
     }
   },
 
+  
   getUsers: async () => {
     try {
       const response = await axios.get(`${BASE_URL}/users`);
@@ -48,15 +62,19 @@ const userService = {
     }
   },
 
+  
   loginUser: async (credentials) => {
     try {
       const response = await axios.post(`${BASE_URL}/users/login`, credentials);
+      const { accessToken } = response.data;
+      userService.setAuthToken(accessToken); // Set JWT token in headers
       return response.data;
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Failed to login');
     }
   },
 
+  
   currentUser: async () => {
     try {
       const response = await axios.get(`${BASE_URL}/users/current`);
