@@ -9,6 +9,7 @@ import projectService from '@/services/project.service';
 function Projects() {
   const [projects, setProjects] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
+  
 
   const toggleModal = () => {
     setIsOpen(!isOpen);

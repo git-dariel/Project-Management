@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import userService from "@/services/user.service";
 import { Link } from "react-router-dom";
 import * as Yup from 'yup';
-import { validateSignupForm } from "@/validators/validate.signup";
+import { validateSignupForm } from "@/components/common/dialogs/yup/validate.signup";
 
 const Signup = () => {
   const [formData, setFormData] = useState({

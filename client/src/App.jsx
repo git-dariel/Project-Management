@@ -11,7 +11,7 @@ const Projects = lazy(() => import("./pages/Projects"));
 const Groups = lazy(() => import("./pages/Groups"));
 const Notification = lazy(() => import("./pages/Notification"));
 const Profile = lazy(() => import("./pages/Profile"));
-const ProjectView = lazy(() => import("./components/projects/project-view"));
+const ProjectView = lazy(() => import("./components/projects/project.view"));
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

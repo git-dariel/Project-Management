@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import userService from "@/services/user.service";
-import { validateLoginForm } from "@/validators/validate.login";
+import { validateLoginForm } from "@/components/common/dialogs/yup/validate.login";
 
 function Login() {
   const [formData, setFormData] = useState({
