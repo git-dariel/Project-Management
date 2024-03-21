@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import userService from "@/services/user.service";
 import { Link } from "react-router-dom";
 import * as Yup from 'yup';
+import { validateSignupForm } from "@/validators/validate.signup";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -22,55 +23,32 @@ const Signup = () => {
     }));
   };
 
-  //Yup validation
-  const validateForm = async () => {
-    try {
-      const schema = Yup.object().shape({
-        firstname: Yup.string().required("First name is required"),
-        lastname: Yup.string().required("Last name is required"),
-        role: Yup.string().required("Role is required"),
-        email: Yup.string().email("Invalid email").required("Email is required"),
-        password: Yup.string().min(8, "Password must be at least 8 characters").required("Password is required"),
-        confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Confirm Password is required')
-      });
-
-      await schema.validate(formData, { abortEarly: false });
-      return null; // No errors
-    } catch (error) {
-      const validationErrors = {};
-      error.inner.forEach(err => {
-        validationErrors[err.path] = err.message;
-      });
-      return validationErrors;
-    }
-  };
+ 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = await validateForm();
+    const validationErrors = await validateSignupForm(formData); // yup validation
     if (validationErrors) {
       setErrors(validationErrors);
     } else {
       // Form is valid, handle form submission logic here
       console.log("Form data:", formData);
     }
-
+  
     try {
       if (formData.password !== formData.confirmPassword) {
         throw new Error("Passwords do not match");
       }
-
-      // Call registerUser method from userService
+  
+      // service
       const newUser = await userService.registerUser(formData);
       console.log(newUser._id, newUser.email, newUser.role);
-      // Redirect to login page upon successful registration
       history.push("/login");
     } catch (error) {
       console.error("Error signing up:", error.message);
-      // Handle error
     }
-
   };
+  
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
