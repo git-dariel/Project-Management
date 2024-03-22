@@ -1,40 +1,8 @@
 import React from "react";
 import ThreeDot from "../common/buttons/threedots";
+import { members } from "@/test-data/task.members.data";
 
 function MembersCard() {
-  // Dummy data for members
-  const members = [
-    {
-      id: 1,
-      name: "Neil Sims",
-      email: "email@windster.com",
-      image: "https://flowbite.com/docs/images/people/profile-picture-1.jpg",
-    },
-    {
-      id: 2,
-      name: "Bonnie Green",
-      email: "email@windster.com",
-      image: "https://flowbite.com/docs/images/people/profile-picture-3.jpg",
-    },
-    {
-      id: 3,
-      name: "Michael Gough",
-      email: "email@windster.com",
-      image: "https://flowbite.com/docs/images/people/profile-picture-2.jpg",
-    },
-    {
-      id: 4,
-      name: "Lana Byrd",
-      email: "email@windster.com",
-      image: "https://flowbite.com/docs/images/people/profile-picture-4.jpg",
-    },
-    {
-      id: 5,
-      name: "Thomes Lean",
-      email: "email@windster.com",
-      image: "https://flowbite.com/docs/images/people/profile-picture-5.jpg",
-    },
-  ];
   return (
     <div className="flex flex-col flex-1 items-center justify-center relative">
       <div className="p-4  lg:w-[500px] bg-white rounded-lg border shadow-md sm:p-8 dark:bg-gray-800 dark:border-gray-700">
@@ -63,7 +31,7 @@ function MembersCard() {
                       {member.name}
                     </p>
                     <p className="text-sm text-gray-500 truncate dark:text-gray-400">
-                      {member.email}
+                      {member.role}
                     </p>
                   </div>
                   {/* Action button with dropdown menu */}

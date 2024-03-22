@@ -13,6 +13,8 @@ import WeightBar from "./task.weight";
 import { Button } from "../ui/button";
 import MembersCard from "./see.members";
 import SquareClose from "../common/buttons/square.close";
+import MembersSnip from "./members.snip";
+import { members } from "@/test-data/task.members.data";
 
 export default function TaskDrawer({
   isOpen,
@@ -26,22 +28,25 @@ export default function TaskDrawer({
     <Drawer open={isOpen} onClose={onClose}>
       <DrawerContent>
         <div className="mx-auto w-full grid grid-flow-col grid-cols-3 ">
-          <div className="bg-gray-100 flex flex-col items-center">
+          <div className="flex flex-col">
             <DrawerHeader>
               <DrawerTitle>Assigned members</DrawerTitle>
             </DrawerHeader>
-            <div className="mt-3 h-[120px] flex justify-center items-center">
+            <div className="m-3 h-[120px]">
               <ResponsiveContainer width="100%" height="100%">
-                Hello
+                <MembersSnip members={members} />
               </ResponsiveContainer>
             </div>
             <DrawerFooter>
-              <Button onClick={() => setShowMembersCard(true)}>
-                See members
+              <Button
+                variant="outline"
+                onClick={() => setShowMembersCard(true)}
+              >
+                See all members
               </Button>
             </DrawerFooter>
           </div>
-          <div className="bg-gray-200 flex flex-col items-center">
+          <div className="flex flex-col items-center">
             <DrawerHeader>
               <DrawerTitle>Task Weight</DrawerTitle>
             </DrawerHeader>
@@ -55,7 +60,7 @@ export default function TaskDrawer({
             </div>
             <DrawerFooter>{/* <Button>sample</Button> */}</DrawerFooter>
           </div>
-          <div className="bg-gray-300 flex flex-col items-center">
+          <div className="flex flex-col items-center">
             <DrawerHeader>
               <DrawerTitle>Task Progress</DrawerTitle>
             </DrawerHeader>
@@ -71,12 +76,6 @@ export default function TaskDrawer({
       {showMembersCard && (
         <div className="fixed top-0 left-0 z-10 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
           <MembersCard />
-          {/* <button
-            className="absolute top-0 right-0 m-4 text-white hover:text-gray-300"
-            onClick={() => setShowMembersCard(false)}
-          >
-            Close
-          </button> */}
           <div className="absolute top-0">
             <SquareClose onClick={() => setShowMembersCard(false)} />
           </div>
