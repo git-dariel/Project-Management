@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 function CreateNew({ isOpen, toggleModal }) {
   return (
@@ -41,7 +41,10 @@ function CreateNew({ isOpen, toggleModal }) {
             <form className="p-4 md:p-5">
               <div className="grid gap-4 mb-4 grid-cols-2">
                 <div className="col-span-2">
-                  <label htmlFor="code" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  <label
+                    htmlFor="code"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
                     Project Code
                   </label>
                   <input
@@ -54,7 +57,10 @@ function CreateNew({ isOpen, toggleModal }) {
                   />
                 </div>
                 <div className="col-span-2">
-                  <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  <label
+                    htmlFor="name"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
                     Project Title
                   </label>
                   <input
@@ -67,7 +73,10 @@ function CreateNew({ isOpen, toggleModal }) {
                   />
                 </div>
                 <div className="col-span-1">
-                  <label htmlFor="startDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  <label
+                    htmlFor="startDate"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
                     Project Start Date
                   </label>
                   <input
@@ -79,7 +88,10 @@ function CreateNew({ isOpen, toggleModal }) {
                   />
                 </div>
                 <div className="col-span-1">
-                  <label htmlFor="endDate" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  <label
+                    htmlFor="endDate"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
                     Project End Date
                   </label>
                   <input
@@ -91,7 +103,10 @@ function CreateNew({ isOpen, toggleModal }) {
                   />
                 </div>
                 <div className="col-span-2">
-                  <label htmlFor="officer" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  <label
+                    htmlFor="officer"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
                     Team Leader
                   </label>
                   <input

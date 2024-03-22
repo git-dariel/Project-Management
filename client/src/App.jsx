@@ -3,7 +3,6 @@ import { Suspense, lazy, useState } from "react";
 import ConfirmSignOut from "./components/common/dialogs/signout.confirm";
 import LoadingSkeleton from "./components/common/loading/skeleton";
 
-
 const Login = lazy(() => import("./pages/auth/Login"));
 const Signup = lazy(() => import("./pages/auth/Signup"));
 const Dashboard = lazy(() => import("./pages/Dashboard"));
@@ -14,7 +13,7 @@ const Profile = lazy(() => import("./pages/Profile"));
 const ProjectView = lazy(() => import("./components/projects/project.view"));
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true); //set true for testing
 
   // Function to handle login
   const handleLogin = () => {
@@ -23,9 +22,24 @@ function App() {
 
   return (
     <>
-      <Suspense fallback={<div><LoadingSkeleton /></div>}>
+      <Suspense
+        fallback={
+          <div>
+            <LoadingSkeleton />
+          </div>
+        }
+      >
         <Routes>
-          <Route path="/" element={isLoggedIn ? <Navigate to="/dashboard" replace /> : <Login onLogin={handleLogin} />} />
+          <Route
+            path="/"
+            element={
+              isLoggedIn ? (
+                <Navigate to="/dashboard" replace />
+              ) : (
+                <Login onLogin={handleLogin} />
+              )
+            }
+          />
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/groups" element={<Groups />} />

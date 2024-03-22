@@ -1,15 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "@bitnoi.se/react-scheduler/dist/style.css";
 import { Scheduler } from "@bitnoi.se/react-scheduler";
 import { mockedSchedulerData } from "../../test-data/data.js";
 import { useParams } from "react-router-dom";
 import { dummyProjects } from "../../test-data/data.js";
 import Sidebar from "../layout/side-bar.jsx";
-import TaskProgressBar from "./task.progress.jsx";
-import WeightBar from "./task.weight.jsx";
 import ProjectHeader from "./project.header.jsx";
 import TaskDrawer from "./task.drawer.jsx";
-
 
 const ProjectView = () => {
   const { projectId } = useParams();
@@ -18,7 +15,6 @@ const ProjectView = () => {
   const [progress, setProgress] = useState(0);
   const [weight, setWeight] = useState(0);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
 
   const project = dummyProjects.find(
     (project) => project.id === parseInt(projectId)
@@ -46,6 +42,19 @@ const ProjectView = () => {
     setWeight(clickedResource.weight);
     setIsDrawerOpen(true);
   };
+  const drawerRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (drawerRef.current && !drawerRef.current.contains(event.target)) {
+        setIsDrawerOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <Sidebar>
@@ -53,16 +62,16 @@ const ProjectView = () => {
         {/* Top navigation/Header */}
         <ProjectHeader project={project} />
 
-        <TaskDrawer
-          isOpen={isDrawerOpen}
-          onClose={() => setIsDrawerOpen(false)}
-          progress={progress}
-          weight={weight}
-          getWeightBackgroundColor={getWeightBackgroundColor}
-        />
+        <div ref={drawerRef}>
+          <TaskDrawer
+            isOpen={isDrawerOpen}
+            onClose={() => setIsDrawerOpen(false)}
+            progress={progress}
+            weight={weight}
+            getWeightBackgroundColor={getWeightBackgroundColor}
+          />
+        </div>
 
-
-       
         {/* Main content/React-scheduler component */}
         <div className="relative h-full mt-1">
           <Scheduler
@@ -73,7 +82,7 @@ const ProjectView = () => {
             onItemClick={(item) => {
               setProgress(item.progress);
               setWeight(item.weight);
-            }} 
+            }}
             onFilterData={() => {
               // Some filtering logic...
               setFilterButtonState(1);
