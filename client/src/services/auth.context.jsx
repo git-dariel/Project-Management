@@ -9,19 +9,20 @@ export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Check if user is logged in on page load
   useEffect(() => {
     const checkCurrentUser = async () => {
       setIsLoading(true);
       const token = localStorage.getItem("token");
       if (token) {
-        userService.setAuthToken(token); // Ensure the token is set for axios
+        userService.setAuthToken(token);
         try {
-          await userService.currentUser(); // Attempt to fetch the current user
-          setIsLoggedIn(true); // Valid token and user exists
+          await userService.currentUser();
+          setIsLoggedIn(true);
         } catch (error) {
           console.error("Error verifying token:", error);
-          localStorage.removeItem("token"); // Remove invalid token
-          setIsLoggedIn(false); // Invalid token or user does not exist
+          localStorage.removeItem("token");
+          setIsLoggedIn(false);
         }
       }
       setIsLoading(false);
@@ -30,12 +31,13 @@ export const AuthProvider = ({ children }) => {
     checkCurrentUser();
   }, []);
 
+  // Login user
   const login = async (credentials) => {
     try {
       const data = await userService.loginUser(credentials);
       if (data && data.accessToken) {
-        localStorage.setItem("token", data.accessToken); // Store token upon successful login
-        userService.setAuthToken(data.accessToken); // Set the token for axios headers
+        localStorage.setItem("token", data.accessToken);
+        userService.setAuthToken(data.accessToken);
         setIsLoggedIn(true);
       } else {
         setIsLoggedIn(false);
@@ -46,9 +48,10 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Logout user
   const logout = () => {
-    userService.setAuthToken(null); // Clear the token from axios headers
-    localStorage.removeItem("token"); // Remove token from storage
+    userService.setAuthToken(null);
+    localStorage.removeItem("token");
     setIsLoggedIn(false);
   };
 

@@ -29,7 +29,7 @@ function Login() {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    const validationErrors = await validateLoginForm(formData); // Validate form data
+    const validationErrors = await validateLoginForm(formData);
     if (validationErrors) {
       setErrors(validationErrors);
       console.log("Validation errors:", validationErrors);
