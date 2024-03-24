@@ -8,6 +8,6 @@ router.route(API_ENDPOINTS.USER_REGISTER.GET).get(getUsers);
 router.route(API_ENDPOINTS.USER_REGISTER.POST).post(registerUser);
 router.route(API_ENDPOINTS.USER_REGISTER.GET_UPDATE_DELETE_BY_ID).get(validateToken, getUser).put(validateToken, updateUser).delete(validateToken, deleteUser);
 router.route(API_ENDPOINTS.USER_LOGIN.POST).post(loginUser);
-router.route(API_ENDPOINTS.USER_LOGIN.GET).get(validateToken, currentUser).post(validateToken, currentUser);
+router.route(API_ENDPOINTS.USER_LOGIN.GET).get(validateToken, currentUser)
 
 module.exports = router;

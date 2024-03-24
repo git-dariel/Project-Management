@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import userService from "@/services/user.service";
 import { validateLoginForm } from "@/components/common/dialogs/yup/validate.login";
+import { useAuth } from "@/services/auth.context";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -10,6 +10,14 @@ function Login() {
   });
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
+  const { isLoggedIn } = useAuth();
+  const { login } = useAuth();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/dashboard");
+    }
+  }, [isLoggedIn, navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,12 +37,10 @@ function Login() {
     }
 
     try {
-      // Call loginUser method from userService
-      const user = await userService.loginUser(formData);
-      console.log("User logged in successfully:", user);
-      // Redirect to dashboard
+      await login(formData);
       navigate("/dashboard");
     } catch (error) {
+      setErrors({ ...errors, form: "Login failed. Please try again." });
       console.error("Error logging in:", error.message);
     }
   };

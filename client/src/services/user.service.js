@@ -77,7 +77,7 @@ const userService = {
   
   currentUser: async () => {
     try {
-      const response = await axios.get(`${BASE_URL}/users/current`);
+      const response = await axios.get(`${BASE_URL}/current`);
       return response.data;
     } catch (error) {
       throw new Error(error.response?.data?.message || 'Failed to get current user');
