@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const BASE_URL = 'http://localhost:8000/api';
+const BASE_URL = 'https://project-management-server-1ffi.onrender.com/api';
 
 const userService = {
   // validation function
@@ -12,7 +12,7 @@ const userService = {
     }
   },
 
- 
+
   getUserById: async (userId) => {
     try {
       const response = await axios.get(`${BASE_URL}/users/${userId}`);
@@ -22,7 +22,7 @@ const userService = {
     }
   },
 
-  
+
   registerUser: async (user) => {
     try {
       const response = await axios.post(`${BASE_URL}/users/register`, user);
@@ -32,7 +32,7 @@ const userService = {
     }
   },
 
-  
+
   updateUser: async (user) => {
     try {
       const response = await axios.put(`${BASE_URL}/users/${user.id}`, user);
@@ -42,7 +42,7 @@ const userService = {
     }
   },
 
-  
+
   deleteUser: async (userId) => {
     try {
       const response = await axios.delete(`${BASE_URL}/users/${userId}`);
@@ -52,7 +52,7 @@ const userService = {
     }
   },
 
-  
+
   getUsers: async () => {
     try {
       const response = await axios.get(`${BASE_URL}/users`);
@@ -62,7 +62,7 @@ const userService = {
     }
   },
 
-  
+
   loginUser: async (credentials) => {
     try {
       const response = await axios.post(`${BASE_URL}/users/login`, credentials);
@@ -74,7 +74,7 @@ const userService = {
     }
   },
 
-  
+
   currentUser: async () => {
     try {
       const response = await axios.get(`${BASE_URL}/current`);
