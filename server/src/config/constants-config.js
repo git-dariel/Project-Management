@@ -7,5 +7,5 @@ exports.constants = {
 };
 
 exports.origin = {
-  ORIGIN: "http://localhost:5173",
+  ORIGIN: "https://project-management-testing.vercel.app/",
 }
