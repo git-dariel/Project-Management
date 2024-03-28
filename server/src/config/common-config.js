@@ -6,4 +6,8 @@ function trimAll(obj) {
     return trimmedObj;
 }
 
-module.exports = { trimAll };
+const MSG = {
+    WELCOME: "You're successfully connected to Project Management API.",
+}
+
+module.exports = { trimAll, MSG };
