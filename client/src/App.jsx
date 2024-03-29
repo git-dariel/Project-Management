@@ -4,6 +4,7 @@ import ConfirmSignOut from "./components/common/dialogs/signout.confirm";
 import LoadingSkeleton from "./components/common/loading/skeleton";
 import ProtectedRoute from "./components/users/protected.route";
 import { AuthProvider } from "./services/auth.context";
+import { Toaster } from "sonner";
 
 const Login = lazy(() => import("./pages/auth/Login"));
 const Signup = lazy(() => import("./pages/auth/Signup"));
@@ -12,12 +13,14 @@ const Projects = lazy(() => import("./pages/Projects"));
 const Groups = lazy(() => import("./pages/Groups"));
 const Notification = lazy(() => import("./pages/Notification"));
 const Profile = lazy(() => import("./pages/Profile"));
-const ProjectView = lazy(() => import("./components/projects/project.view"));
+const ProjectView = lazy(() => import("./pages/Project.view"));
+const GroupProjects = lazy(() => import("./pages/Group.projects"));
 
 function App() {
   return (
     <>
       <AuthProvider>
+        <Toaster richColors />
         <Suspense
           fallback={
             <div>
@@ -41,6 +44,22 @@ function App() {
               element={
                 <ProtectedRoute>
                   <Groups />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/groups/:groupId/projects"
+              element={
+                <ProtectedRoute>
+                  <GroupProjects />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/groups/:groupId/projects/:projectId"
+              element={
+                <ProtectedRoute>
+                  <ProjectView />
                 </ProtectedRoute>
               }
             />
@@ -76,8 +95,22 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/test" element={<ConfirmSignOut />} />
-            <Route path="/loading" element={<LoadingSkeleton />} />
+            <Route
+              path="/test"
+              element={
+                <ProtectedRoute>
+                  <ConfirmSignOut />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/loading"
+              element={
+                <ProtectedRoute>
+                  <LoadingSkeleton />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Suspense>
       </AuthProvider>

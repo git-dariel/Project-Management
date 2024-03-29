@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import userService from "@/services/user.service";
 import { Link } from "react-router-dom";
-import * as Yup from "yup";
-import { validateSignupForm } from "@/components/common/dialogs/yup/validate.signup";
+import { validateSignupForm } from "@/components/yup/validate.signup";
+import { toast } from "sonner";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -44,6 +44,7 @@ const Signup = () => {
       history.push("/login");
     } catch (error) {
       console.error("Error signing up:", error.message);
+      toast.error("Signup failed. Please try again.");
     }
   };
 

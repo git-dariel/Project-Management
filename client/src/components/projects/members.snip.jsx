@@ -20,7 +20,7 @@ const MembersSnip = ({ members }) => {
 
   return (
     <div className="flex items-center space-x-[-8px]">
-      {/* Displaying up to 3 profile pictures */}
+      {/* Displaying a snippet of pfps */}
       {truncatedMembers.map((member, index) => (
         <div
           key={member.id}

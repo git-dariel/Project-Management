@@ -1,7 +1,8 @@
-import { validateLoginForm } from "@/components/common/dialogs/yup/validate.login";
+import { validateLoginForm } from "@/components/yup/validate.login";
 import { useAuth } from "@/services/auth.context";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -15,6 +16,7 @@ function Login() {
 
   useEffect(() => {
     if (isLoggedIn) {
+      toast.success("Login successful. Opening dashboard...");
       navigate("/dashboard");
     }
   }, [isLoggedIn, navigate]);
@@ -38,10 +40,10 @@ function Login() {
 
     try {
       await login(formData);
-      navigate("/dashboard");
     } catch (error) {
       setErrors({ ...errors, form: "Login failed. Please try again." });
       console.error("Error logging in:", error.message);
+      toast.error("Login failed. Please try again.");
     }
   };
 
