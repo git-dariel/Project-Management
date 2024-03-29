@@ -1,7 +1,8 @@
-import { validateLoginForm } from "@/components/common/dialogs/yup/validate.login";
+import { validateLoginForm } from "@/components/yup/validate.login";
 import { useAuth } from "@/services/auth.context";
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Toaster, toast } from "sonner";
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -38,15 +39,18 @@ function Login() {
 
     try {
       await login(formData);
+      toast.success("Login successful. Opening dashboard...");
       navigate("/dashboard");
     } catch (error) {
       setErrors({ ...errors, form: "Login failed. Please try again." });
+      toast.error("Login failed. Please try again.");
       console.error("Error logging in:", error.message);
     }
   };
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
+      <Toaster richColors />
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a
           href="#"
