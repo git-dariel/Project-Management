@@ -119,7 +119,8 @@ function Projects() {
                       </div>
                       <div className="text-gray-500">{project.description}</div>
                       <div className="text-gray-500 text-end col-span-2">
-                        {project.start_date} - {project.end_date}
+                        {formatDate(project.start_date)} -{" "}
+                        {formatDate(project.end_date)}
                       </div>
                     </div>
                   </Link>
