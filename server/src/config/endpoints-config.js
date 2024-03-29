@@ -1,5 +1,8 @@
 module.exports = {
     API_ENDPOINTS: {
+        MAIN: {
+            DEFAULT: "/",
+        },
         // user endpoints
         USER_REGISTER: {
             GET: "/users",
@@ -20,6 +23,8 @@ module.exports = {
         // project members endpoints
         PROJECT_MEMBER: {
             GET: "/:project_id",
+            DEACTIVATE: "/deactivate/:project_id/:user_id",
+            ACTIVATE: "/activate/:project_id/:user_id",
         }
     }
 }
