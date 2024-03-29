@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import userService from "@/services/user.service";
 import { Link } from "react-router-dom";
 import { validateSignupForm } from "@/components/yup/validate.signup";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 
 const Signup = () => {
   const [formData, setFormData] = useState({
@@ -50,7 +50,6 @@ const Signup = () => {
 
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
-      <Toaster richColors />
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <a
           href="#"

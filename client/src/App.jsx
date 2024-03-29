@@ -4,6 +4,7 @@ import ConfirmSignOut from "./components/common/dialogs/signout.confirm";
 import LoadingSkeleton from "./components/common/loading/skeleton";
 import ProtectedRoute from "./components/users/protected.route";
 import { AuthProvider } from "./services/auth.context";
+import { Toaster } from "sonner";
 
 const Login = lazy(() => import("./pages/auth/Login"));
 const Signup = lazy(() => import("./pages/auth/Signup"));
@@ -26,6 +27,7 @@ function App() {
   return (
     <>
       <AuthProvider>
+        <Toaster richColors />
         <Suspense
           fallback={
             <div>
