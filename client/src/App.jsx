@@ -15,13 +15,6 @@ const Profile = lazy(() => import("./pages/Profile"));
 const ProjectView = lazy(() => import("./components/projects/project.view"));
 
 function App() {
-  // const [isLoggedIn, setIsLoggedIn] = useState(true); //set true for testing
-
-  // // Function to handle login
-  // const handleLogin = () => {
-  //   setIsLoggedIn(true);
-  // };
-
   return (
     <>
       <AuthProvider>
@@ -33,16 +26,6 @@ function App() {
           }
         >
           <Routes>
-            {/* <Route
-              path="/"
-              element={
-                isLoggedIn ? (
-                  <Navigate to="/dashboard" replace />
-                ) : (
-                  <Login onLogin={handleLogin} />
-                )
-              }
-            /> */}
             <Route path="/" element={<Login />} />
             <Route
               path="/dashboard"
@@ -53,7 +36,6 @@ function App() {
               }
             />
             <Route path="/signup" element={<Signup />} />
-            {/* <Route path="/dashboard" element={<Dashboard />} /> */}
             <Route
               path="/groups"
               element={
