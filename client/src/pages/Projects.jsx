@@ -6,6 +6,7 @@ import ConfirmSignOut from "@/components/common/dialogs/signout.confirm";
 import CreateNewProject from "../components/forms/new.project";
 import { toast } from "sonner";
 import { PlusCircle } from "lucide-react";
+import { formatDate } from "@/components/ui/format.date";
 
 function Projects() {
   const [projects, setProjects] = useState([]);
@@ -88,7 +89,8 @@ function Projects() {
                       </div>
                       <div className="text-gray-500">{project.description}</div>
                       <div className="text-gray-500 text-end col-span-2">
-                        {project.start_date} - {project.end_date}
+                        {formatDate(project.start_date)} -{" "}
+                        {formatDate(project.end_date)}
                       </div>
                     </div>
                   </Link>
