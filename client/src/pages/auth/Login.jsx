@@ -16,6 +16,7 @@ function Login() {
 
   useEffect(() => {
     if (isLoggedIn) {
+      toast.success("Login successful. Opening dashboard...");
       navigate("/dashboard");
     }
   }, [isLoggedIn, navigate]);
@@ -39,12 +40,6 @@ function Login() {
 
     try {
       await login(formData);
-      if (isLoggedIn) {
-        navigate("/dashboard");
-        toast.success("Login successful. Opening dashboard...");
-      } else {
-        toast.error("Login failed. Please try again.");
-      }
     } catch (error) {
       setErrors({ ...errors, form: "Login failed. Please try again." });
       console.error("Error logging in:", error.message);
