@@ -1,6 +1,6 @@
 import * as React from "react";
 import { ResponsiveContainer } from "recharts";
-
+import { MdOutlinePeopleAlt } from "react-icons/md";
 import {
   Drawer,
   DrawerContent,
@@ -14,7 +14,7 @@ import { Button } from "../ui/button";
 import MembersCard from "./see.members";
 import SquareClose from "../common/buttons/square.close";
 import MembersSnip from "./members.snip";
-import { members } from "@/test-data/task.members.data";
+import { taskMembers } from "@/test-data/task.members.data";
 
 export default function TaskDrawer({
   isOpen,
@@ -34,7 +34,7 @@ export default function TaskDrawer({
             </DrawerHeader>
             <div className="m-3 h-[120px]">
               <ResponsiveContainer width="100%" height="100%">
-                <MembersSnip members={members} />
+                <MembersSnip members={taskMembers} />
               </ResponsiveContainer>
             </div>
             <DrawerFooter>
@@ -42,6 +42,7 @@ export default function TaskDrawer({
                 variant="outline"
                 onClick={() => setShowMembersCard(true)}
               >
+                <MdOutlinePeopleAlt className="mr-2 h-4 w-4" />
                 See all members
               </Button>
             </DrawerFooter>

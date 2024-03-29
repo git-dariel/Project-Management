@@ -1,6 +1,6 @@
 import React from "react";
 
-function CreateNew({ isOpen, toggleModal }) {
+function CreateNewProject({ isOpen, toggleModal }) {
   return (
     <>
       {isOpen && (
@@ -142,4 +142,4 @@ function CreateNew({ isOpen, toggleModal }) {
   );
 }
 
-export default CreateNew;
+export default CreateNewProject;

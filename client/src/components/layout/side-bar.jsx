@@ -12,7 +12,7 @@ import {
   LayoutDashboardIcon,
 } from "lucide-react";
 
-const Sidebar = ({ children }) => {
+const Sidebar = ({ children, confirmSignout }) => {
   // Using local storage to keep sidebar state
   const [isMinimized, setIsMinimized] = useState(() => {
     const storedValue = localStorage.getItem("sidebarMinimized");
@@ -26,6 +26,9 @@ const Sidebar = ({ children }) => {
 
   const toggleSidebar = () => {
     setIsMinimized(!isMinimized);
+  };
+  const handleLogout = () => {
+    confirmSignout();
   };
 
   return (
@@ -117,9 +120,8 @@ const Sidebar = ({ children }) => {
                 {!isMinimized && <span>Profile</span>}
               </Link>
             </li>
-            <li className="py-4 px-6">
-              <Link
-                to="/"
+            <li className="py-4 px-6" onClick={handleLogout}>
+              <button
                 className={`inline-flex items-center hover:text-gray-400 ${
                   isMinimized ? "justify-center" : ""
                 }`}
@@ -128,7 +130,7 @@ const Sidebar = ({ children }) => {
                   className={`h-6 w-6 ${isMinimized ? "mr-0" : "mr-2"}`}
                 />
                 {!isMinimized && <span>Log Out</span>}
-              </Link>
+              </button>
             </li>
           </ul>
         </div>

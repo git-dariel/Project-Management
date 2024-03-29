@@ -1,5 +1,5 @@
 // Dummy data for members
-export const members = [
+export const taskMembers = [
   {
     id: 1,
     name: "Neil Sims",

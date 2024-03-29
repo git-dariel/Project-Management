@@ -1,6 +1,6 @@
 import React from "react";
 import ThreeDot from "../common/buttons/threedots";
-import { members } from "@/test-data/task.members.data";
+import { taskMembers } from "@/test-data/task.members.data";
 
 function MembersCard() {
   return (
@@ -16,7 +16,7 @@ function MembersCard() {
             role="list"
             className="divide-y divide-gray-200 dark:divide-gray-700"
           >
-            {members.map((member) => (
+            {taskMembers.map((member) => (
               <li key={member.id} className="py-3 sm:py-4">
                 <div className="flex items-center space-x-4">
                   <div className="flex-shrink-0">

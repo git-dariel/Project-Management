@@ -12,7 +12,8 @@ const Projects = lazy(() => import("./pages/Projects"));
 const Groups = lazy(() => import("./pages/Groups"));
 const Notification = lazy(() => import("./pages/Notification"));
 const Profile = lazy(() => import("./pages/Profile"));
-const ProjectView = lazy(() => import("./components/projects/project.view"));
+const ProjectView = lazy(() => import("./pages/Project.view"));
+const GroupProjects = lazy(() => import("./pages/Group.projects"));
 
 function App() {
   // const [isLoggedIn, setIsLoggedIn] = useState(true); //set true for testing
@@ -63,6 +64,22 @@ function App() {
               }
             />
             <Route
+              path="/groups/:groupId/projects"
+              element={
+                <ProtectedRoute>
+                  <GroupProjects />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/groups/:groupId/projects/:projectId"
+              element={
+                <ProtectedRoute>
+                  <ProjectView />
+                </ProtectedRoute>
+              }
+            />
+            <Route
               path="/projects"
               element={
                 <ProtectedRoute>
@@ -94,8 +111,22 @@ function App() {
                 </ProtectedRoute>
               }
             />
-            <Route path="/test" element={<ConfirmSignOut />} />
-            <Route path="/loading" element={<LoadingSkeleton />} />
+            <Route
+              path="/test"
+              element={
+                <ProtectedRoute>
+                  <ConfirmSignOut />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/loading"
+              element={
+                <ProtectedRoute>
+                  <LoadingSkeleton />
+                </ProtectedRoute>
+              }
+            />
           </Routes>
         </Suspense>
       </AuthProvider>

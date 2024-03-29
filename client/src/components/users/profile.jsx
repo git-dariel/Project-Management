@@ -1,14 +1,11 @@
 import { dummyProfile } from "../../test-data/data";
 import React, { useState, useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "@/services/auth.context";
+import { Link } from "react-router-dom";
 
-const UserDropdown = () => {
+const UserDropdown = ({ confirmSignout }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null); // Ref for the dropdown menu
   const { name, email, avatarSrc, menuItems } = dummyProfile;
-  const { logout } = useAuth();
-  const navigate = useNavigate();
 
   const toggleDropdown = () => {
     setIsOpen(!isOpen);
@@ -28,10 +25,9 @@ const UserDropdown = () => {
     };
   }, [dropdownRef]);
 
-  // Handle logout click
+  // Handle logout confirmation click
   const handleLogout = () => {
-    logout(); // Call the logout function from auth.context
-    navigate("/"); // Redirect user to the login page
+    confirmSignout();
   };
 
   return (
