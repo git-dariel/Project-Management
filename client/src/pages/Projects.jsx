@@ -1,10 +1,11 @@
-import { PlusCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import CreateNew from "../components/forms/new.project";
 import { Link } from "react-router-dom";
 import Sidebar from "../components/layout/side-bar";
 import projectService from "@/services/project.service";
 import ConfirmSignOut from "@/components/common/dialogs/signout.confirm";
+import CreateNewProject from "../components/forms/new.project";
+import { toast } from "sonner";
+import { PlusCircle } from "lucide-react";
 
 function Projects() {
   const [projects, setProjects] = useState([]);
@@ -24,8 +25,12 @@ function Projects() {
       try {
         const fetchedProjects = await projectService.getAllProjects();
         setProjects(fetchedProjects);
+        if (fetchedProjects.length === 0) {
+          toast.info("No projects found. You can create a new project.");
+        }
       } catch (error) {
         console.error("Failed to fetch projects:", error.message);
+        toast.error("Failed to fetch projects. Please try again.");
       }
     }
     fetchData();
@@ -57,7 +62,7 @@ function Projects() {
             </button>
           </div>
 
-          <CreateNew isOpen={isOpen} toggleModal={toggleModal} />
+          <CreateNewProject isOpen={isOpen} toggleModal={toggleModal} />
           <div>
             <div>
               <div
@@ -79,11 +84,11 @@ function Projects() {
                   >
                     <div className="grid grid-cols-4 items-center border-b p-3 cursor-pointer hover:bg-gray-200 transition-all duration-300 ease-in-out">
                       <div className="font-semibold text-gray-700">
-                        {project.name}
+                        {project.project_name}
                       </div>
-                      <div className="text-gray-500">{project.code}</div>
+                      <div className="text-gray-500">{project.description}</div>
                       <div className="text-gray-500 text-end col-span-2">
-                        {project.date}
+                        {project.start_date} - {project.end_date}
                       </div>
                     </div>
                   </Link>
@@ -108,11 +113,11 @@ function Projects() {
                   >
                     <div className="grid grid-cols-4 items-center border-b p-3 cursor-pointer hover:bg-gray-200 transition-all duration-400 ease-in-out">
                       <div className="font-semibold text-gray-700">
-                        {project.name}
+                        {project.project_name}
                       </div>
-                      <div className="text-gray-500">{project.code}</div>
+                      <div className="text-gray-500">{project.description}</div>
                       <div className="text-gray-500 text-end col-span-2">
-                        {project.date}
+                        {project.start_date} - {project.end_date}
                       </div>
                     </div>
                   </Link>

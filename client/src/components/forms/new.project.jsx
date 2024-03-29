@@ -1,6 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
+import projectService from "@/services/project.service";
+import { toast } from "sonner";
 
 function CreateNewProject({ isOpen, toggleModal }) {
+  const [projectData, setProjectData] = useState({
+    project_name: "",
+    description: "",
+    start_date: "",
+    end_date: "",
+    members: [],
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setProjectData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await projectService.createProject(projectData);
+      window.location.reload();
+    } catch (error) {
+      console.error("Failed to create project:", error.message);
+      toast.error("Failed to create project. Please try again.");
+    }
+  };
+
   return (
     <>
       {isOpen && (
@@ -13,7 +42,7 @@ function CreateNewProject({ isOpen, toggleModal }) {
           <div className="relative w-full max-w-md p-4 bg-white rounded-lg shadow">
             <div className="border-b p-4 md:p-5 rounded-t flex items-center justify-between bg-gray-100 dark:bg-gray-700">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Create a new group or project
+                Create a new project
               </h3>
               <button
                 type="button"
@@ -38,86 +67,95 @@ function CreateNewProject({ isOpen, toggleModal }) {
                 <span className="sr-only">Close modal</span>
               </button>
             </div>
-            <form className="p-4 md:p-5">
-              <div className="grid gap-4 mb-4 grid-cols-2">
-                <div className="col-span-2">
+            <form className="p-4 md:p-5" onSubmit={handleSubmit}>
+              <div className="grid gap-4 mb-4">
+                <label
+                  htmlFor="project_name"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Project Name
+                </label>
+                <input
+                  type="text"
+                  id="project_name"
+                  name="project_name"
+                  placeholder="Enter project name"
+                  className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  required
+                  value={projectData.project_name}
+                  onChange={handleChange}
+                />
+              </div>
+              <div className="grid gap-4 mb-4">
+                <label
+                  htmlFor="description"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Description
+                </label>
+                <textarea
+                  id="description"
+                  name="description"
+                  placeholder="Enter project description"
+                  className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  required
+                  value={projectData.description}
+                  onChange={handleChange}
+                ></textarea>
+              </div>
+              <div className="grid gap-4 mb-4 md:grid-cols-2">
+                <div className="">
                   <label
-                    htmlFor="code"
+                    htmlFor="start_date"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Project Code
-                  </label>
-                  <input
-                    type="text"
-                    id="code"
-                    name="code"
-                    placeholder="Type project code"
-                    className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    required
-                  />
-                </div>
-                <div className="col-span-2">
-                  <label
-                    htmlFor="name"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Project Title
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="Type project title"
-                    className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    required
-                  />
-                </div>
-                <div className="col-span-1">
-                  <label
-                    htmlFor="startDate"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Project Start Date
-                  </label>
-                  <input
-                    type="date"
-                    id="startDate"
-                    name="startDate"
-                    className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    required
-                  />
-                </div>
-                <div className="col-span-1">
-                  <label
-                    htmlFor="endDate"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Project End Date
+                    Start Date
                   </label>
                   <input
                     type="date"
-                    id="endDate"
-                    name="endDate"
+                    id="start_date"
+                    name="start_date"
                     className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     required
+                    value={projectData.start_date}
+                    onChange={handleChange}
                   />
                 </div>
-                <div className="col-span-2">
+                <div className="">
                   <label
-                    htmlFor="officer"
+                    htmlFor="end_date"
                     className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Team Leader
+                    End Date
                   </label>
                   <input
-                    type="text"
-                    id="officer"
-                    name="officer"
-                    placeholder="Assign a Team Leader"
+                    type="date"
+                    id="end_date"
+                    name="end_date"
                     className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                     required
+                    value={projectData.end_date}
+                    onChange={handleChange}
                   />
                 </div>
+              </div>
+              <div className="grid gap-4 mb-4">
+                <label
+                  htmlFor="members"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Members (comma-separated user IDs)
+                </label>
+                <input
+                  type="text"
+                  id="members"
+                  name="members"
+                  placeholder="Enter member IDs"
+                  className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                  required
+                  value={projectData.members}
+                  onChange={handleChange}
+                />
               </div>
               <div className="flex justify-end space-x-4">
                 <button
@@ -128,7 +166,7 @@ function CreateNewProject({ isOpen, toggleModal }) {
                   Cancel
                 </button>
                 <button
-                  type="button"
+                  type="submit"
                   className="inline-flex items-center justify-center px-5 py-2.5 text-sm font-medium text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                 >
                   Create
