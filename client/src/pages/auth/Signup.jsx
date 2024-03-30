@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import userService from "@/services/user.service";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { validateSignupForm } from "@/components/yup/validate.signup";
 import { toast } from "sonner";
 
@@ -14,6 +14,7 @@ const Signup = () => {
     confirmPassword: "",
   });
   const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,7 +42,7 @@ const Signup = () => {
       // service
       const newUser = await userService.registerUser(formData);
       console.log(newUser._id, newUser.email, newUser.role);
-      history.push("/login");
+      navigate("/");
     } catch (error) {
       console.error("Error signing up:", error.message);
       toast.error("Signup failed. Please try again.");
