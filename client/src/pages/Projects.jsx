@@ -27,7 +27,7 @@ function Projects() {
         const fetchedProjects = await projectService.getAllProjects();
         setProjects(fetchedProjects);
         if (fetchedProjects.length === 0) {
-          toast.info("No projects found. You can create a new project.");
+          toast.info("No projects found. Try to create a new project.");
         }
       } catch (error) {
         console.error("Failed to fetch projects:", error.message);

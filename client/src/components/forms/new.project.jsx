@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import projectService from "@/services/project.service";
 import { toast } from "sonner";
+import userService from "@/services/user.service";
 
 function CreateNewProject({ isOpen, toggleModal }) {
   const [projectData, setProjectData] = useState({
@@ -10,6 +11,24 @@ function CreateNewProject({ isOpen, toggleModal }) {
     end_date: "",
     members: [],
   });
+  const [users, setUsers] = useState([]);
+  const [selectedUsers, setSelectedUsers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredUsers, setFilteredUsers] = useState([]);
+
+  useEffect(() => {
+    // Fetch users when component mounts
+    async function fetchUsers() {
+      try {
+        const fetchedUsers = await userService.getUsers();
+        setUsers(fetchedUsers);
+      } catch (error) {
+        console.error("Failed to fetch users:", error.message);
+        toast.error("Failed to fetch users. Please try again.");
+      }
+    }
+    fetchUsers();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -19,10 +38,44 @@ function CreateNewProject({ isOpen, toggleModal }) {
     }));
   };
 
+  const handleUserSelect = (userId) => {
+    const user = users.find((user) => user._id === userId);
+    if (user && !selectedUsers.some((u) => u._id === user._id)) {
+      setSelectedUsers((prevUsers) => [...prevUsers, user]);
+    }
+    // Clear search query after selecting a user
+    setSearchQuery("");
+    setFilteredUsers([]);
+  };
+
+  useEffect(() => {
+    console.log("Selected users: ", selectedUsers);
+  }, [selectedUsers]);
+
+  const handleSearchChange = (e) => {
+    const query = e.target.value.toLowerCase();
+    setSearchQuery(query);
+    const filtered = users.filter(
+      (user) =>
+        user.firstname.toLowerCase().includes(query) ||
+        user.lastname.toLowerCase().includes(query)
+    );
+    setFilteredUsers(filtered);
+  };
+
+  const handleRemoveUser = (userId) => {
+    setSelectedUsers((prevUsers) =>
+      prevUsers.filter((user) => user._id !== userId)
+    );
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await projectService.createProject(projectData);
+      await projectService.createProject({
+        ...projectData,
+        members: selectedUsers.map((user) => user._id),
+      });
       window.location.reload();
     } catch (error) {
       console.error("Failed to create project:", error.message);
@@ -39,7 +92,7 @@ function CreateNewProject({ isOpen, toggleModal }) {
           aria-hidden="true"
           className="fixed top-0 right-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50"
         >
-          <div className="relative w-full max-w-md p-4 bg-white rounded-lg shadow">
+          <div className="relative w-full max-w-[50%] p-4 bg-white rounded-lg shadow">
             <div className="border-b p-4 md:p-5 rounded-t flex items-center justify-between bg-gray-100 dark:bg-gray-700">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Create a new project
@@ -68,94 +121,121 @@ function CreateNewProject({ isOpen, toggleModal }) {
               </button>
             </div>
             <form className="p-4 md:p-5" onSubmit={handleSubmit}>
-              <div className="grid gap-4 mb-4">
-                <label
-                  htmlFor="project_name"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Project Name
-                </label>
-                <input
-                  type="text"
-                  id="project_name"
-                  name="project_name"
-                  placeholder="Enter project name"
-                  className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  required
-                  value={projectData.project_name}
-                  onChange={handleChange}
-                />
-              </div>
-              <div className="grid gap-4 mb-4">
-                <label
-                  htmlFor="description"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Description
-                </label>
-                <textarea
-                  id="description"
-                  name="description"
-                  placeholder="Enter project description"
-                  className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  required
-                  value={projectData.description}
-                  onChange={handleChange}
-                ></textarea>
-              </div>
-              <div className="grid gap-4 mb-4 md:grid-cols-2">
-                <div className="">
-                  <label
-                    htmlFor="start_date"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Start Date
-                  </label>
-                  <input
-                    type="date"
-                    id="start_date"
-                    name="start_date"
-                    className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    required
-                    value={projectData.start_date}
-                    onChange={handleChange}
-                  />
+              <div className="grid grid-cols-2 gap-4">
+                <div className="inputside">
+                  <div className="grid gap-4 mb-4">
+                    <label
+                      htmlFor="project_name"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Project Name
+                    </label>
+                    <input
+                      type="text"
+                      id="project_name"
+                      name="project_name"
+                      placeholder="Enter project name"
+                      className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      required
+                      value={projectData.project_name}
+                      onChange={handleChange}
+                    />
+                  </div>
+                  <div className="grid gap-4 mb-4">
+                    <label
+                      htmlFor="description"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Description
+                    </label>
+                    <textarea
+                      id="description"
+                      name="description"
+                      placeholder="Enter project description"
+                      className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      required
+                      value={projectData.description}
+                      onChange={handleChange}
+                    ></textarea>
+                  </div>
+                  <div className="grid gap-4 mb-4 md:grid-cols-2">
+                    <div className="">
+                      <label
+                        htmlFor="start_date"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Start Date
+                      </label>
+                      <input
+                        type="date"
+                        id="start_date"
+                        name="start_date"
+                        className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        required
+                        value={projectData.start_date}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="">
+                      <label
+                        htmlFor="end_date"
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        End Date
+                      </label>
+                      <input
+                        type="date"
+                        id="end_date"
+                        name="end_date"
+                        className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                        required
+                        value={projectData.end_date}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div className="">
-                  <label
-                    htmlFor="end_date"
-                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    End Date
-                  </label>
-                  <input
-                    type="date"
-                    id="end_date"
-                    name="end_date"
-                    className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    required
-                    value={projectData.end_date}
-                    onChange={handleChange}
-                  />
+                <div className="membersside">
+                  <div className="grid gap-4 mb-4">
+                    <label
+                      htmlFor="members"
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Members
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Search members"
+                      className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                      value={searchQuery}
+                      onChange={handleSearchChange}
+                    />
+                    {searchQuery && (
+                      <ul className="mt-2 border border-gray-300 rounded-lg overflow-y-auto max-h-40">
+                        {filteredUsers.map((user) => (
+                          <li
+                            key={user._id}
+                            className="px-4 py-2 cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-800"
+                            onClick={() => handleUserSelect(user._id)}
+                          >
+                            {user.firstname} {user.lastname}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                    {selectedUsers.map((user) => (
+                      <li key={user._id} className="text-sm text-gray-600">
+                        {user.firstname} {user.lastname}{" "}
+                        <button
+                          onClick={() => handleRemoveUser(user._id)}
+                          className="text-red-500 ml-1"
+                        >
+                          Remove
+                        </button>
+                      </li>
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div className="grid gap-4 mb-4">
-                <label
-                  htmlFor="members"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                >
-                  Members (comma-separated user IDs)
-                </label>
-                <input
-                  type="text"
-                  id="members"
-                  name="members"
-                  placeholder="Enter member IDs"
-                  className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                  required
-                  value={projectData.members}
-                  onChange={handleChange}
-                />
               </div>
               <div className="flex justify-end space-x-4">
                 <button

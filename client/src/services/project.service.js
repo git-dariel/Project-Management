@@ -12,7 +12,6 @@ const projectService = {
     }
   },
 
-  // Service to get all projects
   getAllProjects: async () => {
     try {
       const response = await axios.get(`${BASE_URL}/projects`);
@@ -24,7 +23,6 @@ const projectService = {
     }
   },
 
-  // Service to create a project
   createProject: async (projectData) => {
     try {
       const response = await axios.post(`${BASE_URL}/projects`, projectData);
@@ -36,7 +34,6 @@ const projectService = {
     }
   },
 
-  // Service to update a project
   updateProject: async (projectId, projectData) => {
     try {
       const response = await axios.put(
@@ -51,7 +48,6 @@ const projectService = {
     }
   },
 
-  // Service to delete a project
   deleteProject: async (projectId) => {
     try {
       const response = await axios.delete(`${BASE_URL}/projects/${projectId}`);
@@ -63,7 +59,6 @@ const projectService = {
     }
   },
 
-  // Service to add a member to a project
   addMemberToProject: async (projectId, userId) => {
     try {
       const response = await axios.post(`${BASE_URL}/projects/add-member`, {
