@@ -3,7 +3,7 @@ import projectService from "@/services/project.service";
 import { toast } from "sonner";
 import userService from "@/services/user.service";
 
-function CreateNewProject({ isOpen, toggleModal }) {
+function CreateNewProject({ isOpen, toggleModal, onProjectCreated }) {
   const [projectData, setProjectData] = useState({
     project_name: "",
     description: "",
@@ -76,7 +76,9 @@ function CreateNewProject({ isOpen, toggleModal }) {
         ...projectData,
         members: selectedUsers.map((user) => user._id),
       });
-      window.location.reload();
+      toast.success("Project created successfully");
+      onProjectCreated();
+      toggleModal();
     } catch (error) {
       console.error("Failed to create project:", error.message);
       toast.error("Failed to create project. Please try again.");

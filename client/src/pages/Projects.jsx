@@ -12,6 +12,11 @@ function Projects() {
   const [projects, setProjects] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [refreshProjects, setRefreshProjects] = useState(false);
+
+  const triggerRefresh = () => {
+    setRefreshProjects((prev) => !prev);
+  };
 
   const openAlertDialog = () => {
     setDialogOpen(true);
@@ -35,7 +40,7 @@ function Projects() {
       }
     }
     fetchData();
-  }, []);
+  }, [refreshProjects]);
 
   return (
     <Sidebar confirmSignout={openAlertDialog}>
@@ -63,7 +68,11 @@ function Projects() {
             </button>
           </div>
 
-          <CreateNewProject isOpen={isOpen} toggleModal={toggleModal} />
+          <CreateNewProject
+            isOpen={isOpen}
+            toggleModal={toggleModal}
+            onProjectCreated={triggerRefresh}
+          />
           <div>
             <div>
               <div
