@@ -1,37 +1,34 @@
-import React, { useEffect, useRef, useState } from "react";
-import "@bitnoi.se/react-scheduler/dist/style.css";
-import { Scheduler } from "@bitnoi.se/react-scheduler";
-import { mockedSchedulerData } from "../test-data/data.js";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useParams } from "react-router-dom";
-import { dummyProjects } from "../test-data/data.js";
 import Sidebar from "../components/layout/side-bar.jsx";
-import ProjectHeader from "../components/projects/project.header.jsx";
 import TaskDrawer from "../components/projects/task.drawer.jsx";
 import ConfirmSignOut from "@/components/common/dialogs/signout.confirm.jsx";
+import { Scheduler } from "@bitnoi.se/react-scheduler";
+import { ResponsiveContainer } from "recharts";
 
 const ProjectView = () => {
-  const { projectId } = useParams();
   const [isLoading, setIsLoading] = useState(false);
   const [filterButtonState, setFilterButtonState] = useState(0);
   const [progress, setProgress] = useState(0);
   const [weight, setWeight] = useState(0);
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [schedulerData, setSchedulerData] = useState([]);
 
-  const openAlertDialog = () => {
+  const { projectId } = useParams();
+
+  const openAlertDialog = useCallback(() => {
     setDialogOpen(true);
-  };
-
-  const project = dummyProjects.find(
-    (project) => project.id === parseInt(projectId)
-  );
-
-  if (!project) {
-    return <div>Project not found</div>;
-  }
+  }, []);
 
   // Color indicator for weight
-  const getWeightBackgroundColor = () => {
+  const getWeightBackgroundColor = useCallback(() => {
     if (weight <= 25) {
       return "bg-green-300"; // Good weight (green)
     } else if (weight <= 50) {
@@ -41,13 +38,14 @@ const ProjectView = () => {
     } else {
       return "bg-red-300"; // Worst weight (red)
     }
-  };
+  }, [weight]);
 
-  const openDrawer = (clickedResource) => {
+  const openDrawer = useCallback((clickedResource) => {
     setProgress(clickedResource.progress);
     setWeight(clickedResource.weight);
     setIsDrawerOpen(true);
-  };
+  }, []);
+
   const drawerRef = useRef(null);
 
   useEffect(() => {
@@ -69,8 +67,6 @@ const ProjectView = () => {
           isOpen={dialogOpen}
           onClose={() => setDialogOpen(false)}
         />
-        {/* Top navigation/Header */}
-        <ProjectHeader project={project} />
 
         <div ref={drawerRef}>
           <TaskDrawer
@@ -83,9 +79,14 @@ const ProjectView = () => {
         </div>
 
         {/* Main content/React-scheduler component */}
-        <div className="relative h-full mt-1">
+        <ResponsiveContainer>
+          <div className="absolute left-80 top-2 z-20">
+            <button className="px-2 py-1 bg-blue-500 rounded-md text-sm text-white">
+              Create new
+            </button>
+          </div>
           <Scheduler
-            data={mockedSchedulerData}
+            data={schedulerData}
             isLoading={isLoading}
             onRangeChange={(newRange) => console.log(newRange)}
             onTileClick={openDrawer}
@@ -106,7 +107,7 @@ const ProjectView = () => {
               filterButtonState,
             }}
           />
-        </div>
+        </ResponsiveContainer>
       </div>
     </Sidebar>
   );

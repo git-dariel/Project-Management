@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import projectService from "@/services/project.service";
 import { toast } from "sonner";
 import userService from "@/services/user.service";
+import { useNavigate } from "react-router-dom";
 
 function CreateNewProject({ isOpen, toggleModal, onProjectCreated }) {
-  const [projectData, setProjectData] = useState({
+  const [formData, setFormData] = useState({
     project_name: "",
     description: "",
     start_date: "",
@@ -15,9 +16,10 @@ function CreateNewProject({ isOpen, toggleModal, onProjectCreated }) {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredUsers, setFilteredUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch users when component mounts
     async function fetchUsers() {
       try {
         const fetchedUsers = await userService.getUsers();
@@ -30,9 +32,9 @@ function CreateNewProject({ isOpen, toggleModal, onProjectCreated }) {
     fetchUsers();
   }, []);
 
-  const handleChange = (e) => {
+  const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProjectData((prevData) => ({
+    setFormData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -43,14 +45,9 @@ function CreateNewProject({ isOpen, toggleModal, onProjectCreated }) {
     if (user && !selectedUsers.some((u) => u._id === user._id)) {
       setSelectedUsers((prevUsers) => [...prevUsers, user]);
     }
-    // Clear search query after selecting a user
     setSearchQuery("");
     setFilteredUsers([]);
   };
-
-  useEffect(() => {
-    console.log("Selected users: ", selectedUsers);
-  }, [selectedUsers]);
 
   const handleSearchChange = (e) => {
     const query = e.target.value.toLowerCase();
@@ -71,29 +68,28 @@ function CreateNewProject({ isOpen, toggleModal, onProjectCreated }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      await projectService.createProject({
-        ...projectData,
+      const createdProject = await projectService.createProject({
+        ...formData,
         members: selectedUsers.map((user) => user._id),
       });
       toast.success("Project created successfully");
       onProjectCreated();
       toggleModal();
+      navigate(`/projects/${createdProject._id}`); // Accessing _id of the created project
     } catch (error) {
       console.error("Failed to create project:", error.message);
       toast.error("Failed to create project. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
     <>
       {isOpen && (
-        <div
-          id="create-modal"
-          tabIndex="-1"
-          aria-hidden="true"
-          className="fixed top-0 right-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50"
-        >
+        <div className="fixed top-0 right-0 left-0 z-50 flex items-center justify-center w-full h-full bg-gray-900 bg-opacity-50">
           <div className="relative w-full max-w-[50%] p-4 bg-white rounded-lg shadow">
             <div className="border-b p-4 md:p-5 rounded-t flex items-center justify-between bg-gray-100 dark:bg-gray-700">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -139,8 +135,8 @@ function CreateNewProject({ isOpen, toggleModal, onProjectCreated }) {
                       placeholder="Enter project name"
                       className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       required
-                      value={projectData.project_name}
-                      onChange={handleChange}
+                      value={formData.project_name}
+                      onChange={handleInputChange}
                     />
                   </div>
                   <div className="grid gap-4 mb-4">
@@ -156,8 +152,8 @@ function CreateNewProject({ isOpen, toggleModal, onProjectCreated }) {
                       placeholder="Enter project description"
                       className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                       required
-                      value={projectData.description}
-                      onChange={handleChange}
+                      value={formData.description}
+                      onChange={handleInputChange}
                     ></textarea>
                   </div>
                   <div className="grid gap-4 mb-4 md:grid-cols-2">
@@ -174,8 +170,8 @@ function CreateNewProject({ isOpen, toggleModal, onProjectCreated }) {
                         name="start_date"
                         className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         required
-                        value={projectData.start_date}
-                        onChange={handleChange}
+                        value={formData.start_date}
+                        onChange={handleInputChange}
                       />
                     </div>
                     <div className="">
@@ -191,8 +187,8 @@ function CreateNewProject({ isOpen, toggleModal, onProjectCreated }) {
                         name="end_date"
                         className="w-full p-2.5 text-sm text-gray-900 bg-gray-50 border border-gray-300 rounded-lg focus:ring-primary-600 focus:border-primary-600 dark:bg-gray-600 dark:border-gray-500 dark:text-white dark:placeholder-gray-400 dark:focus:ring-primary-500 dark:focus:border-primary-500"
                         required
-                        value={projectData.end_date}
-                        onChange={handleChange}
+                        value={formData.end_date}
+                        onChange={handleInputChange}
                       />
                     </div>
                   </div>

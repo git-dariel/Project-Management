@@ -18,6 +18,7 @@ export const mockedSchedulerData = [
   {
     id: "070ac5b5-8369-4cd2-8ba2-0a209130cc60",
     label: {
+      // This will be a user input
       icon: "https://picsum.photos/24",
       title: "Joshua Flores",
       subtitle: "Frontend Developer",
@@ -25,15 +26,15 @@ export const mockedSchedulerData = [
     data: [
       {
         id: "8b71a8a5-33dd-4fc8-9caa-b4a584ba3762",
-        startDate: new Date("2023-04-13T15:31:24.272Z"),
-        endDate: new Date("2023-08-28T10:28:22.649Z"),
-        occupancy: 3600,
-        title: "Project A",
-        subtitle: "Subtitle A",
-        description: "Array indexing Salad West Account",
-        progress: 100,
-        weight: 30,
-        bgColor: "#6CB2EB", // Light Blue
+        startDate: new Date("2023-04-13T15:31:24.272Z"), // This will be a user input
+        endDate: new Date("2023-08-28T10:28:22.649Z"), // This will be a user input
+        occupancy: 3600, //optional
+        title: "Project A", // this is given
+        subtitle: "Subtitle A", // this is given
+        description: "Array indexing Salad West Account", // this is given
+        progress: 100, // This will be a user input
+        weight: 30, //This will be a user input
+        bgColor: "#6CB2EB", // This will be a user input
       },
     ],
   },
