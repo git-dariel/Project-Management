@@ -5,14 +5,15 @@ const { trimAll } = require("../config/common-config");
 //*Get all Projects, access private
 const getProjects = asyncHandler(async (req, res) => {
   try {
-    const projects = await Project.find({ createdBy: req.user.id }).populate({
-      path: "members.user_id",
-      select: "firstname lastname email role",
-    })
+    const projects = await Project.find({ createdBy: req.user.id })
+      .populate({
+        path: "members.user_id",
+        select: "firstname lastname email role",
+      })
       .populate({
         path: "createdBy",
         select: "firstname lastname role",
-      })
+      });
     res.status(200).json(projects);
   } catch (error) {
     res.status(404);
