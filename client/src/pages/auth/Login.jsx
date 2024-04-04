@@ -34,6 +34,7 @@ function Login() {
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    toast.info("We're signing you in, please wait...");
     const validationErrors = await validateLoginForm(formData);
     if (validationErrors) {
       setErrors(validationErrors);
