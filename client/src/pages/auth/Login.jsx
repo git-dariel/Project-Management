@@ -1,3 +1,4 @@
+import LoadingHatch from "@/components/common/loading/ldrs.hatch";
 import { validateLoginForm } from "@/components/yup/validate.login";
 import { useAuth } from "@/services/auth.context";
 import { useState, useEffect } from "react";
@@ -13,6 +14,7 @@ function Login() {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
   const { login } = useAuth();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn) {
@@ -132,8 +134,9 @@ function Login() {
               <button
                 type="submit"
                 className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-primary-800"
+                disabled={loading}
               >
-                Sign in
+                {loading ? <LoadingHatch /> : "Sign in"}
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}

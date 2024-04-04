@@ -42,6 +42,14 @@ function Projects() {
     fetchData();
   }, [refreshProjects]);
 
+  // Filter recent projects
+  const recentProjects = projects.filter((project) => {
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+    const startDate = new Date(project.start_date);
+    return startDate >= oneMonthAgo;
+  });
+
   return (
     <Sidebar confirmSignout={openAlertDialog}>
       <div className="flex flex-col h-screen relative bg-gradient-to-tl from-slate-50 to-slate-400 overflow-y-auto">
@@ -86,23 +94,20 @@ function Projects() {
                 className="m-4 overflow-y-auto max-h-20"
                 style={{ scrollbarWidth: "none" }}
               >
-                {projects.map((project) => (
-                  <Link
-                    to={`/projects/${project.id}`}
-                    key={project.id}
-                    className="text-gray-800"
+                {recentProjects.map((project, index) => (
+                  <div
+                    key={index}
+                    className="grid grid-cols-4 items-center border-b p-3 cursor-pointer hover:bg-gray-200 transition-all duration-300 ease-in-out"
                   >
-                    <div className="grid grid-cols-4 items-center border-b p-3 cursor-pointer hover:bg-gray-200 transition-all duration-300 ease-in-out">
-                      <div className="font-semibold text-gray-700">
-                        {project.project_name}
-                      </div>
-                      <div className="text-gray-500">{project.description}</div>
-                      <div className="text-gray-500 text-end col-span-2">
-                        {formatDate(project.start_date)} -{" "}
-                        {formatDate(project.end_date)}
-                      </div>
+                    <div className="font-semibold text-gray-700">
+                      {project.project_name}
                     </div>
-                  </Link>
+                    <div className="text-gray-500">{project.description}</div>
+                    <div className="text-gray-500 text-end col-span-2">
+                      {formatDate(project.start_date)} -{" "}
+                      {formatDate(project.end_date)}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>
@@ -116,11 +121,11 @@ function Projects() {
               </div>
               {/* All projects content */}
               <div className="m-4 overflow-y-auto max-h-80">
-                {projects.map((project) => (
+                {projects.map((project, index) => (
                   <Link
-                    to={`/projects/${project.id}`}
-                    key={project.id}
-                    className="text-gray-800"
+                    to={`/projects/${project._id}`}
+                    className="your-link-styles"
+                    key={index}
                   >
                     <div className="grid grid-cols-4 items-center border-b p-3 cursor-pointer hover:bg-gray-200 transition-all duration-400 ease-in-out">
                       <div className="font-semibold text-gray-700">

@@ -61,10 +61,13 @@ const projectService = {
 
   addMemberToProject: async (projectId, userId) => {
     try {
-      const response = await axios.post(`${BASE_URL}/projects/:project_id/member`, {
-        project_id: projectId,
-        user_id: userId,
-      });
+      const response = await axios.post(
+        `${BASE_URL}/projects/:project_id/member`,
+        {
+          project_id: projectId,
+          user_id: userId,
+        }
+      );
       return response.data;
     } catch (error) {
       throw new Error(
