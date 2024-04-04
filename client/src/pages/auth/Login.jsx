@@ -33,19 +33,23 @@ function Login() {
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const validationErrors = await validateLoginForm(formData);
     if (validationErrors) {
       setErrors(validationErrors);
+      setLoading(false);
       console.log("Validation errors:", validationErrors);
       return;
     }
 
     try {
       await login(formData);
+      setLoading(false);
     } catch (error) {
       setErrors({ ...errors, form: "Login failed. Please try again." });
       console.error("Error logging in:", error.message);
       toast.error("Login failed. Please try again.");
+      setLoading(false);
     }
   };
 

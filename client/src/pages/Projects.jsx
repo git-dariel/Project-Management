@@ -50,6 +50,14 @@ function Projects() {
     return startDate >= oneMonthAgo;
   });
 
+  // Truncate function to limit the length of the description
+  const truncateDescription = (description, maxLength) => {
+    if (description.length > maxLength) {
+      return description.substring(0, maxLength) + "...";
+    }
+    return description;
+  };
+
   return (
     <Sidebar confirmSignout={openAlertDialog}>
       <div className="flex flex-col h-screen relative bg-gradient-to-tl from-slate-50 to-slate-400 overflow-y-auto">
@@ -95,19 +103,27 @@ function Projects() {
                 style={{ scrollbarWidth: "none" }}
               >
                 {recentProjects.map((project, index) => (
-                  <div
+                  <Link
+                    to={`/projects/${project._id}`}
+                    className="your-link-styles"
                     key={index}
-                    className="grid grid-cols-4 items-center border-b p-3 cursor-pointer hover:bg-gray-200 transition-all duration-300 ease-in-out"
                   >
-                    <div className="font-semibold text-gray-700">
-                      {project.project_name}
+                    <div
+                      key={index}
+                      className="grid grid-cols-4 items-center border-b p-3 cursor-pointer hover:bg-gray-200 transition-all duration-300 ease-in-out"
+                    >
+                      <div className="font-semibold text-gray-700">
+                        {project.project_name}
+                      </div>
+                      <div className="text-gray-500">
+                        {truncateDescription(project.description, 100)}
+                      </div>
+                      <div className="text-gray-500 text-end col-span-2">
+                        {formatDate(project.start_date)} -{" "}
+                        {formatDate(project.end_date)}
+                      </div>
                     </div>
-                    <div className="text-gray-500">{project.description}</div>
-                    <div className="text-gray-500 text-end col-span-2">
-                      {formatDate(project.start_date)} -{" "}
-                      {formatDate(project.end_date)}
-                    </div>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </div>
@@ -122,16 +138,14 @@ function Projects() {
               {/* All projects content */}
               <div className="m-4 overflow-y-auto max-h-80">
                 {projects.map((project, index) => (
-                  <Link
-                    to={`/projects/${project._id}`}
-                    className="your-link-styles"
-                    key={index}
-                  >
+                  <Link to={`/projects/${project._id}`} key={index}>
                     <div className="grid grid-cols-4 items-center border-b p-3 cursor-pointer hover:bg-gray-200 transition-all duration-400 ease-in-out">
                       <div className="font-semibold text-gray-700">
                         {project.project_name}
                       </div>
-                      <div className="text-gray-500">{project.description}</div>
+                      <div className="text-gray-500">
+                        {truncateDescription(project.description, 30)}
+                      </div>
                       <div className="text-gray-500 text-end col-span-2">
                         {formatDate(project.start_date)} -{" "}
                         {formatDate(project.end_date)}

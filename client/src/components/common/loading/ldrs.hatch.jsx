@@ -4,7 +4,7 @@ import { hatch } from "ldrs";
 hatch.register();
 
 const LoadingHatch = ({
-  size = "28",
+  size = "15",
   stroke = "4",
   speed = "3.5",
   color = "white",

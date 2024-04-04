@@ -75,7 +75,7 @@ export default function TaskDrawer({
         </div>
       </DrawerContent>
       {showMembersCard && (
-        <div className="fixed top-0 left-0 z-10 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+        <div className="fixed top-0 left-0 z-20 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
           <MembersCard />
           <div className="absolute top-0">
             <SquareClose onClick={() => setShowMembersCard(false)} />
