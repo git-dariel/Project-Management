@@ -2,7 +2,6 @@ const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 
 const validateToken = asyncHandler(async (req, res, next) => {
-
   const authHeader = req.headers.Authorization || req.headers.authorization;
   const tokenMatch = authHeader ? authHeader.match(/^Bearer\s+(\S+)/) : null;
   const token = tokenMatch ? tokenMatch[1] : null;

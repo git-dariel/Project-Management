@@ -1,38 +1,30 @@
 const mongoose = require("mongoose");
-const stageSchema = require("../models/stage-model").schema;
 
-const projectSchema = new mongoose.Schema(
-  {
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-    project_name: { type: String, required: true },
-    description: { type: String },
-    members: [
-      {
-        user_id: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User",
-          required: true,
-        },
-        is_active: { type: Boolean, default: true },
-      },
-    ],
-    start_date: { type: Date, required: true },
-    end_date: { type: Date },
-    stages: [stageSchema],
+const projectSchema = new mongoose.Schema({
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
-  {
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-  }
-);
-
-projectSchema.virtual("membersCount").get(function () {
-  return this.members.length;
+  project_name: { type: String, required: true },
+  description: { type: String },
+  members: [
+    {
+      user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+      is_active: { type: Boolean, default: true },
+    },
+  ],
+  start_date: { type: Date, required: true },
+  end_date: { type: Date },
+  stages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Stage" }],
+  projectItemCounter: { type: Number, default: 1 },
 });
+
+projectSchema.set("autoIndex", true);
 
 projectSchema.methods.addMember = async function (userId) {
   const isMemberAlready = this.members.some((member) =>
