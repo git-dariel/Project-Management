@@ -1,6 +1,5 @@
 const asyncHandler = require('express-async-handler')
 const userRepository = require('../repository/userRepository')
-const User = require('../models/userModel')
 const { trimAll } = require('../config/commonConfig')
 const bcrypt = require('bcrypt')
 const validator = require('validator')
