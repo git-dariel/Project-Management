@@ -1,6 +1,18 @@
 const Project = require('../models/projectModel');
 
-const getProjects = async (id) => {
+const projectRepository = {
+  getProjects: getProjects,
+  getProject: getProject,
+  findOne: findOne,
+  createProject: createProject,
+  addMember: addMember,
+  updateProject: updateProject,
+  deleteProject: deleteProject,
+};
+
+module.exports = projectRepository;
+
+async function getProjects(id) {
   try {
     return await Project.find({ createdBy: id })
       .populate({
@@ -14,33 +26,33 @@ const getProjects = async (id) => {
   } catch (error) {
     return error;
   }
-};
+}
 
-const getProject = async (id) => {
+async function getProject(id) {
   try {
     return await Project.findById(id);
   } catch (error) {
     return error;
   }
-};
+}
 
-const findOne = async (name) => {
+async function findOne(name) {
   try {
     return await Project.findOne({ name: name });
   } catch (error) {
     return error;
   }
-};
+}
 
-const createProject = async (data) => {
+async function createProject(data) {
   try {
     return await Project.create(data);
   } catch (error) {
     return error;
   }
-};
+}
 
-const addMember = async (id) => {
+async function addMember(id) {
   try {
     return await Project.findById(id).populate({
       path: 'members.userId',
@@ -49,9 +61,9 @@ const addMember = async (id) => {
   } catch (error) {
     return error;
   }
-};
+}
 
-const updateProject = async (id, data) => {
+async function updateProject(id, data) {
   try {
     return await Project.findByIdAndUpdate(id, data, { new: true }).populate({
       path: 'members.userId',
@@ -60,24 +72,12 @@ const updateProject = async (id, data) => {
   } catch (error) {
     return error;
   }
-};
+}
 
-const deleteProject = async (id) => {
+async function deleteProject(id) {
   try {
     return await Project.findByIdAndDelete(id);
   } catch (error) {
     return error;
   }
-};
-
-const projectRepository = {
-  getProjects: getProjects,
-  getProject: getProject,
-  findOne: findOne,
-  createProject: createProject,
-  addMember: addMember,
-  updateProject: updateProject,
-  deleteProject: deleteProject,
-};
-
-module.exports = projectRepository;
+}

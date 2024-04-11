@@ -6,7 +6,6 @@ const validator = require('validator');
 const jwt = require('jsonwebtoken');
 const saltFactor = 10;
 
-//*Get the user by id
 const getUser = asyncHandler(async (req, res) => {
   try {
     const user = await userRepository.getUser(req.params.id);
@@ -20,7 +19,6 @@ const getUser = asyncHandler(async (req, res) => {
   }
 });
 
-//*Register a user, access public
 const registerUser = asyncHandler(async (req, res) => {
   const trimmedBody = trimAll(req.body);
   try {
@@ -56,7 +54,6 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-//*Update the user, access public
 const updateUser = asyncHandler(async (req, res) => {
   const trimmedBody = trimAll(req.body);
   try {
@@ -90,7 +87,6 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
-//*Delete the user, access public
 const deleteUser = asyncHandler(async (req, res) => {
   try {
     const user = await userRepository.getUser(req.params.id);
@@ -105,13 +101,11 @@ const deleteUser = asyncHandler(async (req, res) => {
   }
 });
 
-//*Get users. For debugging only
 const getUsers = asyncHandler(async (req, res) => {
   const users = await userRepository.getUsers();
   res.status(200).json(users);
 });
 
-//*Login the user, access public
 const loginUser = asyncHandler(async (req, res) => {
   const trimmedBody = trimAll(req.body);
   try {
@@ -138,7 +132,6 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-//*Check the current user, access private
 const currentUser = asyncHandler(async (req, res) => {
   try {
     if (!req.user) {
