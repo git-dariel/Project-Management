@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const taskSchema = new mongoose.Schema({
   stageId: {
@@ -24,6 +24,6 @@ const taskSchema = new mongoose.Schema({
     enum: ['pending', 'in_progress', 'completed'],
     required: true,
   },
-})
+});
 
-module.exports = mongoose.model('Tasks', taskSchema)
+module.exports = mongoose.model('Tasks', taskSchema);

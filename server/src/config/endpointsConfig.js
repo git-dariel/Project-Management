@@ -35,7 +35,7 @@ module.exports = {
 
     STAGE: {
       GET: '/stage/get/all',
-      POST: '/stage/create',
+      POST: '/stage/:projectId/create',
     },
   },
-}
+};

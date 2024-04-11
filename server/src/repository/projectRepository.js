@@ -1,4 +1,4 @@
-const Project = require('../models/projectModel')
+const Project = require('../models/projectModel');
 
 const getProjects = async (id) => {
   try {
@@ -10,65 +10,65 @@ const getProjects = async (id) => {
       .populate({
         path: 'createdBy',
         select: 'firstname lastname role',
-      })
+      });
   } catch (error) {
-    return error
+    return error;
   }
-}
+};
 
 const getProject = async (id) => {
   try {
-    return await Project.findById(id)
+    return await Project.findById(id);
   } catch (error) {
-    return error
+    return error;
   }
-}
+};
 
-const findOne = async (data) => {
+const findOne = async (name) => {
   try {
-    return await Project.findOne({ data: data })
+    return await Project.findOne({ name: name });
   } catch (error) {
-    return error
+    return error;
   }
-}
+};
 
 const createProject = async (data) => {
   try {
-    return await Project.create(data)
+    return await Project.create(data);
   } catch (error) {
-    return error
+    return error;
   }
-}
+};
 
 const addMember = async (id) => {
   try {
     return await Project.findById(id).populate({
       path: 'members.userId',
       select: 'firstname lastname email role',
-    })
+    });
   } catch (error) {
-    return error
+    return error;
   }
-}
+};
 
 const updateProject = async (id, data) => {
   try {
     return await Project.findByIdAndUpdate(id, data, { new: true }).populate({
       path: 'members.userId',
       select: 'firstname lastname email role',
-    })
+    });
   } catch (error) {
-    return error
+    return error;
   }
-}
+};
 
 const deleteProject = async (id) => {
   try {
-    return await Project.findByIdAndDelete(id)
+    return await Project.findByIdAndDelete(id);
   } catch (error) {
-    return error
+    return error;
   }
-}
+};
 
 const projectRepository = {
   getProjects: getProjects,
@@ -78,6 +78,6 @@ const projectRepository = {
   addMember: addMember,
   updateProject: updateProject,
   deleteProject: deleteProject,
-}
+};
 
-module.exports = projectRepository
+module.exports = projectRepository;

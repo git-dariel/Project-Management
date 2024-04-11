@@ -1,45 +1,45 @@
-const asyncHandler = require('express-async-handler')
-const userRepository = require('../repository/userRepository')
-const { trimAll } = require('../config/commonConfig')
-const bcrypt = require('bcrypt')
-const validator = require('validator')
-const jwt = require('jsonwebtoken')
-const saltFactor = 10
+const asyncHandler = require('express-async-handler');
+const userRepository = require('../repository/userRepository');
+const { trimAll } = require('../config/commonConfig');
+const bcrypt = require('bcrypt');
+const validator = require('validator');
+const jwt = require('jsonwebtoken');
+const saltFactor = 10;
 
 //*Get the user by id
 const getUser = asyncHandler(async (req, res) => {
   try {
-    const user = await userRepository.getUser(req.params.id)
+    const user = await userRepository.getUser(req.params.id);
     if (!user) {
-      throw new Error('User not found')
+      throw new Error('User not found');
     }
-    res.status(200).json({ user })
+    res.status(200).json({ user });
   } catch (error) {
-    res.status(400)
-    throw error
+    res.status(400);
+    throw error;
   }
-})
+});
 
 //*Register a user, access public
 const registerUser = asyncHandler(async (req, res) => {
-  const trimmedBody = trimAll(req.body)
+  const trimmedBody = trimAll(req.body);
   try {
-    const { firstname, lastname, role, email, password } = trimmedBody
+    const { firstname, lastname, role, email, password } = trimmedBody;
     if (!firstname || !lastname || !role || !email || !password) {
-      throw new Error('All fields are mandatory!')
+      throw new Error('All fields are mandatory!');
     }
 
     if (!validator.isEmail(email)) {
-      res.status(400)
-      throw new Error('Invalid email format')
+      res.status(400);
+      throw new Error('Invalid email format');
     }
 
-    const userAvailable = await userRepository.findByEmail(email)
+    const userAvailable = await userRepository.findByEmail(email);
     if (userAvailable) {
-      throw new Error('User already registered!')
+      throw new Error('User already registered!');
     }
 
-    const hashedPassword = await bcrypt.hash(password, saltFactor)
+    const hashedPassword = await bcrypt.hash(password, saltFactor);
 
     let user = await userRepository.createUser({
       firstname,
@@ -47,110 +47,110 @@ const registerUser = asyncHandler(async (req, res) => {
       role,
       email,
       password: hashedPassword,
-    })
+    });
 
-    res.status(201).json(user)
+    res.status(201).json(user);
   } catch (error) {
-    res.status(400)
-    throw error
+    res.status(400);
+    throw error;
   }
-})
+});
 
 //*Update the user, access public
 const updateUser = asyncHandler(async (req, res) => {
-  const trimmedBody = trimAll(req.body)
+  const trimmedBody = trimAll(req.body);
   try {
-    const { email, password, ...otherUpdates } = trimmedBody
+    const { email, password, ...otherUpdates } = trimmedBody;
 
     if (email && !validator.isEmail(email)) {
-      res.status(400)
-      throw new Error('Invalid email format')
+      res.status(400);
+      throw new Error('Invalid email format');
     }
 
-    let updates = { ...otherUpdates }
+    let updates = { ...otherUpdates };
     if (password) {
-      const hashedPassword = await bcrypt.hash(password, 10)
-      updates.password = hashedPassword
+      const hashedPassword = await bcrypt.hash(password, 10);
+      updates.password = hashedPassword;
     }
 
-    if (email) updates.email = email
+    if (email) updates.email = email;
 
-    const updatedUser = await userRepository.updateUser(req.params.id, updates)
+    const updatedUser = await userRepository.updateUser(req.params.id, updates);
 
     if (!updatedUser) {
-      res.status(400)
-      throw new Error('User not found')
+      res.status(400);
+      throw new Error('User not found');
     }
 
-    const { password: _, ...userWithoutPassword } = updatedUser.toObject()
+    const { password: _, ...userWithoutPassword } = updatedUser.toObject();
 
-    res.status(200).json({ message: 'Update successful', user: userWithoutPassword })
+    res.status(200).json({ message: 'Update successful', user: userWithoutPassword });
   } catch (error) {
-    res.status(500).json({ message: 'An error occurred during the update.', error: error.message })
+    res.status(500).json({ message: 'An error occurred during the update.', error: error.message });
   }
-})
+});
 
 //*Delete the user, access public
 const deleteUser = asyncHandler(async (req, res) => {
   try {
-    const user = await userRepository.getUser(req.params.id)
+    const user = await userRepository.getUser(req.params.id);
     if (!user) {
-      throw new Error('User not found')
+      throw new Error('User not found');
     }
-    const deletedUser = await userRepository.deleteUser(req.params.id)
-    res.status(200).json({ message: 'Delete successful', user: deletedUser })
+    const deletedUser = await userRepository.deleteUser(req.params.id);
+    res.status(200).json({ message: 'Delete successful', user: deletedUser });
   } catch (error) {
-    res.status(400)
-    throw error
+    res.status(400);
+    throw error;
   }
-})
+});
 
 //*Get users. For debugging only
 const getUsers = asyncHandler(async (req, res) => {
-  const users = await userRepository.getUsers()
-  res.status(200).json(users)
-})
+  const users = await userRepository.getUsers();
+  res.status(200).json(users);
+});
 
 //*Login the user, access public
 const loginUser = asyncHandler(async (req, res) => {
-  const trimmedBody = trimAll(req.body)
+  const trimmedBody = trimAll(req.body);
   try {
-    const { email, password } = trimmedBody
+    const { email, password } = trimmedBody;
     if (!email || !password) {
-      throw new Error('Both email and password are required.')
+      throw new Error('Both email and password are required.');
     }
 
-    const user = await userRepository.findByEmail(email)
+    const user = await userRepository.findByEmail(email);
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      throw new Error('Invalid credentials')
+      throw new Error('Invalid credentials');
     }
 
     const accessToken = jwt.sign(
       { user: { id: user.id, email: user.email, role: user.role } },
       process.env.ACCESS_TOKEN_SECRET,
       { expiresIn: '1d' }
-    )
+    );
 
-    res.status(200).json({ accessToken })
+    res.status(200).json({ accessToken });
   } catch (error) {
-    res.status(400)
-    throw error
+    res.status(400);
+    throw error;
   }
-})
+});
 
 //*Check the current user, access private
 const currentUser = asyncHandler(async (req, res) => {
   try {
     if (!req.user) {
-      res.status(401)
-      throw new Error('Unauthorized access. No user found.')
+      res.status(401);
+      throw new Error('Unauthorized access. No user found.');
     }
-    res.status(200).json({ user: req.user })
+    res.status(200).json({ user: req.user });
   } catch (error) {
-    console.error(error)
-    res.status(401).json({ message: error.message })
+    console.error(error);
+    res.status(401).json({ message: error.message });
   }
-})
+});
 
 const userService = {
   registerUser: registerUser,
@@ -160,6 +160,6 @@ const userService = {
   getUsers: getUsers,
   loginUser: loginUser,
   currentUser: currentUser,
-}
+};
 
-module.exports = userService
+module.exports = userService;
