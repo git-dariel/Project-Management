@@ -6,8 +6,7 @@ const { trimAll } = require('../config/commonConfig');
 //*Get all stages, access private
 const getStages = asyncHandler(async (req, res) => {
   try {
-    const projects = await Project.find().populate('stages');
-    const stages = projects.map((project) => project.stages).flat();
+    const stages = await Stage.find();
     res.status(200).json(stages);
   } catch (error) {
     res.status(404);
@@ -18,7 +17,8 @@ const getStages = asyncHandler(async (req, res) => {
 //*Create a new stage, access private
 const createStage = asyncHandler(async (req, res) => {
   const trimmedBody = trimAll(req.body);
-  const { name, startDate, endDate, projectId, tasks = [] } = trimmedBody;
+  const { name, startDate, endDate } = trimmedBody;
+  const { projectId } = req.params;
 
   try {
     if (!name || !startDate || !endDate || !projectId)
@@ -30,19 +30,20 @@ const createStage = asyncHandler(async (req, res) => {
       return res.status(404).json({ message: 'Project not found.' });
     }
 
-    const existingStage = project.stages.find((stage) => stage.name === name);
+    const existingStage = await Stage.findOne({ projectId, name });
     if (existingStage) {
-      return res.status(409).json({ message: 'Stage with that name already exists!' });
+      return res.status(400).json({ message: 'Stage already exists in this project.' });
     }
 
     const stage = new Stage({
       name,
       startDate,
       endDate,
-      tasks,
+      projectId,
     });
 
-    project.stages.push(stage);
+    await stage.save();
+    project.stages.push(stage._id);
     await project.save();
     res.status(200).json(stage);
   } catch (error) {
