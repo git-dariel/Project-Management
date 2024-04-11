@@ -3,7 +3,6 @@ const router = express.Router()
 const stageService = require('../services/stageService')
 const { API_ENDPOINTS } = require('../config/endpointsConfig')
 
-router.use(require('../middleware/validateTokenHandler'))
 router.route(API_ENDPOINTS.STAGE.GET).get(stageService.getStages)
 router.route(API_ENDPOINTS.STAGE.POST).post(stageService.createStage)
 
