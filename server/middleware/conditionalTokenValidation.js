@@ -1,22 +1,23 @@
 const tokenValidationHandler = require('./validateTokenHandler');
 const { API_ENDPOINTS } = require('../config/endpointsConfig');
+const { constants } = require('../config/constantsConfig');
 
 const excludeFromTokenValidation = [
   {
     path: API_ENDPOINTS.MAIN.DEFAULT,
-    method: 'GET',
+    method: constants.METHOD.GET,
   },
   {
-    path: API_ENDPOINTS.USER.REGISTER.GET,
-    method: 'GET',
+    path: API_ENDPOINTS.USER.GET,
+    method: constants.METHOD.GET,
   },
   {
-    path: API_ENDPOINTS.USER.REGISTER.POST,
-    method: 'POST',
+    path: API_ENDPOINTS.USER.POST,
+    method: constants.METHOD.POST,
   },
   {
-    path: API_ENDPOINTS.USER.LOGIN.POST,
-    method: 'POST',
+    path: API_ENDPOINTS.USER.LOGIN,
+    method: constants.METHOD.POST,
   },
 ];
 

@@ -1,21 +1,17 @@
 module.exports = {
   API_ENDPOINTS: {
     MAIN: {
-      DEFAULT: '/',
+      DEFAULT: '/api',
     },
 
     USER: {
-      REGISTER: {
-        GET: '/user/get/all',
-        POST: '/user/create',
-        GETBYID: '/user/get/:id',
-        UPDATE: '/user/update/:id',
-        DELETE: '/user/remove/:id',
-      },
-      LOGIN: {
-        GET: '/current/login',
-        POST: '/user/login',
-      },
+      GET: '/user/get/all',
+      POST: '/user/create',
+      GETBYID: '/user/get/:id',
+      UPDATE: '/user/update/:id',
+      DELETE: '/user/remove/:id',
+      CHECKLOGIN: '/current/login',
+      LOGIN: '/user/login',
     },
 
     PROJECT: {
