@@ -8,10 +8,8 @@ Our project management simplifies planning, organizing, and tracking tasks! It h
 
 ## Tech Stack | Tools
 
-- React.js
-- Express.js
 - MongoDB
-- TailwindCSS
-- Insomnia
-- Figma
-- React Scheduler
+- Express.js
+- React.js
+- Node.js
+- Tailwind
